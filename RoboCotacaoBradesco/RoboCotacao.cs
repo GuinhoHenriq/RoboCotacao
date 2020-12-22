@@ -22,10 +22,9 @@ using System.Drawing;
 using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.Devices;
 using System.Collections;
-using Sikuli4Net.sikuli_JSON;
-using Sikuli4Net.sikuli_REST;
-using Sikuli4Net.sikuli_UTIL;
 using System.IO;
+using RoboCotacaoBradesco.ClassDAO;
+using RoboCotacaoBradesco.ClassModelo;
 
 namespace RoboCotacaoBradesco
 {
@@ -33,8 +32,8 @@ namespace RoboCotacaoBradesco
     {
         #region Variaveis que recebem valor da Base
 
-        string Nome, DDD, numCont, tipoSolic, Campanha, veiculo, agencia, CPFCNPJ, Cia, Sucursal, apolice;
-        string itemApolice, sinistro, qtdSinistro, chassi, placa, email, CEP, matricula, Banco, Worksite;
+        int agencia, DDD, numConta, Sucursal, apolice, itemApolice, CliCEP, classe;
+        string Nome, tipoSolic, Campanha, CPFCNPJ, Cia, CEP, Matricula, bonusAtual;
 
         #endregion
 
@@ -45,14 +44,9 @@ namespace RoboCotacaoBradesco
 
         private void btnIniciar_Click(object sender, EventArgs e)
         {
-            int count = 1;
-            int qntdm = 30;
 
-            while (count <= qntdm) ;
-            {
-                count++;
-                loginPortalVendas();
-            }
+
+            CarregaMalingCotacao();
                 
             
         }
@@ -135,27 +129,7 @@ namespace RoboCotacaoBradesco
 
             #region Variaveis Dinâmicas
 
-            string Nome = "EMILIA HORA DA SILVA";
-            string DDD = "71";
-            string numCont = "999966309";
-            string tipoSolic = "FUNCIONÁRIO";
-            string veiculo = "PASSEIO";
-            string CPFCNPJ = "48973564587";
-            string Cia = "BRADESCO SEGUROS S/A";
-            string Sucursal = "861";
-            string apolice = "051806";
-            string itemApolice = "1";
-            string sinistro = "Nao";
-            string qtdSinistro = "3";
-            int textqtdsinistro = Int32.Parse(qtdSinistro);
-            string email = "guinho0010@hotmail.com";
-            string CEP = "08553030";
-            string matricula = "5015626";
-            string Banco = "237";
-            string Worksite = "AZUL LINHAS AEREAS BRASILEIRAS S/A";
-            int classe;
-            string bonusAtual;
-            string agencia = "0407";
+            
 
             #endregion
 
@@ -607,7 +581,7 @@ namespace RoboCotacaoBradesco
                             if (veiculo == "ESPORTIVO" || veiculo == "MOTOCICLETA" || veiculo == "PASSEIO" || veiculo == "PLACA LEVE" || veiculo == "PLACA PESADA PESSOA" || veiculo == "PLACA PESADA CARGA")
                             {
 
-                                selectVeiculo.SelectByText(veiculo); Thread.Sleep(1500);
+                                selectVeiculo.SelectByText("PASSEIO"); Thread.Sleep(1500);
 
                                 txtCPFCNPJSol = chromeDriver.FindElementById("absc_txtCpfCnpjSol");
                                 txtCPFCNPJSol.SendKeys(CPFCNPJ);
@@ -833,6 +807,19 @@ namespace RoboCotacaoBradesco
 
                             #endregion
 
+                            #region ABA AUTOMÓVEL
+
+                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                            btnProximo.Click();
+
+                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                            btnProximo.Click();
+
+                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                            btnProximo.Click();
+
+                            #endregion
+
                             #region ABA CALCULAR
 
                             btnProximo = chromeDriver.FindElementByClassName("btnCalcular");Thread.Sleep(2000);
@@ -889,7 +876,7 @@ namespace RoboCotacaoBradesco
 
                         case "WORKSITE":
 
-                            // ABA SOLICITANTE
+                            #region ABA SOLICITANTE
 
                             selectElement.SelectByText("WORKSITE");
 
@@ -898,9 +885,11 @@ namespace RoboCotacaoBradesco
                             btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
                             btnProximo.Click();
 
-                            // ABA SEGURO
+                            #endregion
+                            
+                            #region ABA SEGURO
 
-                            selectCia.SelectByText(Cia);
+                            selectCia.SelectByText(Cia); Thread.Sleep(3000);
 
                             txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol");
                             txtApoSuc.SendKeys(Sucursal);
@@ -911,43 +900,65 @@ namespace RoboCotacaoBradesco
                             txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol");
                             txtApoItem.SendKeys(itemApolice);
 
+                            SendKeys.Send("{ENTER}");
+
+                             try
+                            {
+                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(1500);
+                                btnFecharAlert.Click();
+                            }
+                            catch
+                            {
+
+                            }
+
+                            try
+                            {
+                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[7]/div/div/div[1]/button"); Thread.Sleep(1500);
+                                btnFecharAlert.Click();
+                            }
+                            catch
+                            {
+
+                            }
+
                             txtSinistro = chromeDriver.FindElementById("absegc_cmbHouveSinistro");
                             txtSinistro.SendKeys(sinistro);
 
-                            if (sinistro == "SIM")
+                            dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
+                            dpBonusAnterior.GetAttribute("value");
+
+                            classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) + 1;
+                            bonusAtual = "Classe " + classe;
+
+                            if (bonusAtual == "Classe 11")
                             {
-
-                                txtQtdSinistro = chromeDriver.FindElementById("absegc_txtQtdSinistro");
-                                txtQtdSinistro.SendKeys(qtdSinistro);
-
-                                dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
-                                dpBonusAnterior.GetAttribute("value"); Thread.Sleep(3000);
-
-                                classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) - textqtdsinistro;
-                                bonusAtual = "Classe " + classe;
-
-                                selectBonus.SelectByText(bonusAtual);
-
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
-
+                                selectBonus.SelectByText("Classe 10");
                             }
+
                             else
                             {
-
-                                dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
-                                dpBonusAnterior.GetAttribute("value");
-
-                                classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) + 1;
-                                bonusAtual = "Classe " + classe;
-
                                 selectBonus.SelectByText(bonusAtual);
-
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
-
                             }
 
+                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                            btnProximo.Click();
+
+                            #endregion
+
+                            #region ABA AUTOMÓVEL
+
+                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                            btnProximo.Click();
+
+                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                            btnProximo.Click();
+
+                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                            btnProximo.Click();
+
+                            #endregion
+                            
                             #region ABA CALCULAR
 
                             btnProximo = chromeDriver.FindElementByClassName("btnCalcular");Thread.Sleep(2000);
@@ -1082,6 +1093,28 @@ namespace RoboCotacaoBradesco
             
             #endregion
 
+        }
+
+        private void CarregaMalingCotacao()
+        {
+           
+            ClassDAO.CarregaMailing Dados = new ClassDAO.CarregaMailing();
+            ClassModelo.ClienteCotacao objAccessUser = new ClassModelo.ClienteCotacao();
+            List<ClienteCotacao> listaCliente = new List<ClienteCotacao>();
+
+            foreach (var item in listaCliente)
+            {
+                Nome = item.Cliente_Nome;
+                DDD = item.Cliente_DDD;
+                numConta = item.Cliente_Conta;
+                CPFCNPJ = item.Cliente_CPF_CNPJ;
+                Sucursal = item.Cliente_Sucursal;
+                apolice = item.Cliente_Apolice;
+                itemApolice = item.Cliente_Item;
+                Matricula = item.Cliente_Matricula;
+                agencia = item.Cliente_Agencia;
+            }
+         
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)

@@ -5,5 +5,14 @@
     <Setting Name="CaminhoDriverChrome" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Libs\LoginPagesChrome\</Value>
     </Setting>
+    <Setting Name="AcessoBanco" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;user id=ADM;pwd=ADMUSR;Application Name=BRADESCO_SEGUROS;data source=TMKT_ZL_DB26;persist security info=False;connection reset=false;Pooling=true;Connection Lifetime=1800;initial catalog=BRADESCO_SEGUROS;min pool size=1;max pool size=999;Connect Timeout=1800
+&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">user id=ADM;pwd=ADMUSR;Application Name=BRADESCO_SEGUROS;data source=TMKT_ZL_DB26;persist security info=False;connection reset=false;Pooling=true;Connection Lifetime=1800;initial catalog=BRADESCO_SEGUROS;min pool size=1;max pool size=999;Connect Timeout=1800
+</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

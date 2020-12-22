@@ -42,18 +42,6 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Ionic.Zip.dll" size="462336">
-      <assemblyIdentity name="Ionic.Zip" version="1.9.1.8" publicKeyToken="EDBE51AD942A3F5C" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Oz5UFoLkjz/Shy+FoGJ42i8+eHfulW2om5DXMqHqoL0=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="700336">
       <assemblyIdentity name="Newtonsoft.Json" version="12.0.0.0" publicKeyToken="30AD4FE6B2A6AEED" language="neutral" processorArchitecture="msil" />
       <hash>
@@ -90,14 +78,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RoboCotacaoBradesco.exe" size="820136">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RoboCotacaoBradesco.exe" size="812456">
       <assemblyIdentity name="RoboCotacaoBradesco" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>fVstJur/X/2N5rgrqKjV7McBASZA04/KREP8kmSfCdo=</dsig:DigestValue>
+        <dsig:DigestValue>YHbyBQ4wnBS2BbLuKMQwPLbfLGja3XxIirj44p3ihDs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,30 +98,6 @@
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
         <dsig:DigestValue>fAWZuNI/KuPoXz398viHYnYXtjvzHHgH8jEHHn457fE=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Sikuli4Net.dll" size="21504">
-      <assemblyIdentity name="Sikuli4Net" version="1.0.5319.36348" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>9RNf/I6wa86QdzJefNcotZz0d0LHkAupoHks7Rj5w9g=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SikuliModule.dll" size="3719680">
-      <assemblyIdentity name="SikuliModule" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Exx8nfaJT9zOFhuy7wnK4Yw7bQUHV6u4f2dALvzg6u0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -179,22 +143,13 @@
       <dsig:DigestValue>zrIVEuwBchb5zB2LZERal6ydtJXHVzHrC/BNoL9CIao=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="JSikuliModule.jar" size="35412022">
+  <file name="RoboCotacaoBradesco.exe.config" size="1993">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>CGP7vPF8C7FI0qR46Z33vNSRT5oYgeQ5ppywL7WFewE=</dsig:DigestValue>
-    </hash>
-  </file>
-  <file name="RoboCotacaoBradesco.exe.config" size="1570">
-    <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>Icga00OiZ/ZXgnadPeCnSvyieDUp6CG58cfz2UjcftM=</dsig:DigestValue>
+      <dsig:DigestValue>6bLso8WVFkUDdcRfGMXQXP5k2QOowWWgpKEfIODedEU=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

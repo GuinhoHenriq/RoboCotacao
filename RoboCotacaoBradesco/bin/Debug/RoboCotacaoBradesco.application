@@ -9,14 +9,14 @@
     <framework targetVersion="4.5.1" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="RoboCotacaoBradesco.exe.manifest" size="10725">
+    <dependentAssembly dependencyType="install" codebase="RoboCotacaoBradesco.exe.manifest" size="8366">
       <assemblyIdentity name="RoboCotacaoBradesco.exe" version="1.0.0.10" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>b1sx2iSnqQ93BSt59kEVrzTGU0KnlHmk/dmIAAIuaDA=</dsig:DigestValue>
+        <dsig:DigestValue>GBAY9l8v3e0k7BotEkr4JVDKFBgOkKDkUDDu7GfZ3/M=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
