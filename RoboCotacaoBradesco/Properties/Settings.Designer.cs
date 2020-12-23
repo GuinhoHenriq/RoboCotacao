@@ -38,8 +38,7 @@ namespace RoboCotacaoBradesco.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"user id=ADM;pwd=ADMUSR;Application Name=BRADESCO_SEGUROS;data source=TMKT_ZL_DB26;persist security info=False;connection reset=false;Pooling=true;Connection Lifetime=1800;initial catalog=BRADESCO_SEGUROS;min pool size=1;max pool size=999;Connect Timeout=1800
-")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"user id=ADM;pwd=ADMUSR;Application Name=BRADESCO_SEGUROS;data source=TMKT-ZL-DB26;persist security info=False;connection reset=false;Pooling=true;Connection Lifetime=1800;initial catalog=BRADESCO_SEGUROS;min pool size=1;max pool size=999;Connect Timeout=1800")]
         public string AcessoBanco {
             get {
                 return ((string)(this["AcessoBanco"]));

@@ -36,6 +36,8 @@ namespace RoboCotacaoBradesco.ClassModelo
         public string Cliente_NomeWorksite { get; set;}
         public int Cliente_CEP { get; set;}
         public int Cliente_Agencia { get; set;}
+        public string Cliente_Email { get; set; }
+
 
         #endregion
        

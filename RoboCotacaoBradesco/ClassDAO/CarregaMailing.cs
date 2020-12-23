@@ -16,7 +16,7 @@ namespace RoboCotacaoBradesco.ClassDAO
 {
     class CarregaMailing
     {
-        public List<ClienteCotacao> CarregaMalingCotacao (ClienteCotacao objAcessUser)
+        public List<ClienteCotacao> CarregaMalingCotacao ()
         {
             System.Data.SqlClient.SqlConnection conexao = new SqlConnection(RoboCotacaoBradesco.Properties.Settings.Default.AcessoBanco);
 
@@ -35,20 +35,22 @@ namespace RoboCotacaoBradesco.ClassDAO
             List<ClienteCotacao> listaCliente = new List<ClienteCotacao>();
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
-                listaCliente.Add(new ClienteCotacao() { Cliente_CPF_CNPJ = ds.Tables[0].Rows[i]["CPFCNPJ"].ToString() });
-                listaCliente.Add(new ClienteCotacao() { Cliente_Nome = ds.Tables[0].Rows[i]["NOME"].ToString() });
-                listaCliente.Add(new ClienteCotacao() { Cliente_DDD = Convert.ToInt32(ds.Tables[0].Rows[i]["DDD"].ToString()) });
-                listaCliente.Add(new ClienteCotacao() { Cliente_Telefone = Convert.ToInt32(ds.Tables[0].Rows[i]["TELEFONE"].ToString()) });
-                listaCliente.Add(new ClienteCotacao() { Cliente_campanha = ds.Tables[0].Rows[i]["CAMPANHA"].ToString() });
-                listaCliente.Add(new ClienteCotacao() { Cliente_Matricula = ds.Tables[0].Rows[i]["MATRICULA"].ToString() });
-                listaCliente.Add(new ClienteCotacao() { Cliente_Agencia = Convert.ToInt32(ds.Tables[0].Rows[i]["AGENCIA"].ToString()) });
-                listaCliente.Add(new ClienteCotacao() { Cliente_Conta = Convert.ToInt32(ds.Tables[0].Rows[i]["CONTA"].ToString()) });
-                listaCliente.Add(new ClienteCotacao() { Cliente_Sucursal = Convert.ToInt32(ds.Tables[0].Rows[i]["SUCURSAL"].ToString()) });
-                listaCliente.Add(new ClienteCotacao() { Cliente_Apolice = Convert.ToInt32(ds.Tables[0].Rows[i]["APOLICE"].ToString()) });
-                listaCliente.Add(new ClienteCotacao() { Cliente_Item = Convert.ToInt32(ds.Tables[0].Rows[i]["MATRICULA"].ToString()) });
-                listaCliente.Add(new ClienteCotacao() { Cliente_DtFimVigencia = Convert.ToDateTime(ds.Tables[0].Rows[i]["FIM_VIGENCIA"].ToString()) });
-
-                
+                listaCliente.Add(new ClienteCotacao() { 
+                    Cliente_CPF_CNPJ = ds.Tables[0].Rows[i]["CPFCNPJ"].ToString(), 
+                    Cliente_Nome = ds.Tables[0].Rows[i]["NOME"].ToString(),
+                    Cliente_DDD = Convert.ToInt32(ds.Tables[0].Rows[i]["DDD"].ToString()),
+                    Cliente_Telefone = Convert.ToInt32(ds.Tables[0].Rows[i]["TELEFONE"].ToString()),
+                    Cliente_campanha = ds.Tables[0].Rows[i]["CAMPANHA"].ToString(),
+                    Cliente_Matricula = ds.Tables[0].Rows[i]["MATRICULA"].ToString(),
+                    Cliente_Agencia = Convert.ToInt32(ds.Tables[0].Rows[i]["AGENCIA"].ToString()),
+                    Cliente_Conta = Convert.ToInt32(ds.Tables[0].Rows[i]["CONTA"].ToString()),
+                    Cliente_Sucursal = Convert.ToInt32(ds.Tables[0].Rows[i]["SUCURSAL"].ToString()),
+                    Cliente_Apolice = Convert.ToInt32(ds.Tables[0].Rows[i]["APOLICE"].ToString()),
+                    Cliente_Item = Convert.ToInt32(ds.Tables[0].Rows[i]["ITEM"].ToString()),
+                    Cliente_DtFimVigencia = Convert.ToDateTime(ds.Tables[0].Rows[i]["FIM_VIGENCIA"]),
+                    Cliente_Email = ds.Tables[0].Rows[i]["EMAIL"].ToString()
+                });
+                  
             }
 
             return listaCliente;
