@@ -14,16 +14,16 @@
       </applicationRequestMinimum>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
         <!--
-          UAC Manifest Options
-          If you want to change the Windows User Account Control level replace the 
-          requestedExecutionLevel node with one of the following.
+          Opções de Manifesto do UAC
+          Para alterar o nível de Controle de Conta de Usuário do Windows, substitua o nó
+          requestedExecutionLevel por um dos seguintes.
 
         <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
         <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
         <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
 
-         If you want to utilize File and Registry Virtualization for backward 
-         compatibility then delete the requestedExecutionLevel node.
+         Para utilizar a Virtualização de Arquivos e Registro para manter a compatibilidade com versões anteriores,
+         exclua o nó requestedExecutionLevel.
     -->
         <requestedExecutionLevel level="asInvoker" uiAccess="false" />
       </requestedPrivileges>
@@ -78,14 +78,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RoboCotacaoBradesco.exe" size="825256">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RoboCotacaoBradesco.exe" size="824232">
       <assemblyIdentity name="RoboCotacaoBradesco" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ZCdcRGRXyxSlekZCw+dwndq///JXev7OMTbyDPiyc5g=</dsig:DigestValue>
+        <dsig:DigestValue>vgvdZoLeAt+H2A6DD0g6fxUyoz/rZNniMBfHz1cs2NI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -143,13 +143,13 @@
       <dsig:DigestValue>zrIVEuwBchb5zB2LZERal6ydtJXHVzHrC/BNoL9CIao=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="RoboCotacaoBradesco.exe.config" size="1988">
+  <file name="RoboCotacaoBradesco.exe.config" size="2237">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>FmQxudLNiKukWv5gTEuPs5OR3aOcLdzXpk1C7rj/azg=</dsig:DigestValue>
+      <dsig:DigestValue>U7DJgnBYXRShTTaTLh+slibHkUYUWEdn3suq1sJZpUU=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

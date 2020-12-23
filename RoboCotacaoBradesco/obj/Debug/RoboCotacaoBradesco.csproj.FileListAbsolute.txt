@@ -10,7 +10,6 @@ C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\bin\Debug\RoboCotacao
 C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\bin\Debug\RoboCotacaoBradesco.application
 C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\obj\Debug\RoboCotacaoBradesco.exe.manifest
 C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\obj\Debug\RoboCotacaoBradesco.application
-C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\obj\Debug\RoboCotacaoBradesco.csprojResolveAssemblyReference.cache
 C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\bin\Debug\Newtonsoft.Json.Bson.dll
 C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\bin\Debug\Newtonsoft.Json.dll
 C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\bin\Debug\nunit.framework.dll
@@ -20,3 +19,6 @@ C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\bin\Debug\Newtonsoft.
 C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\bin\Debug\Newtonsoft.Json.Bson.xml
 C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\bin\Debug\nunit.framework.pdb
 C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\bin\Debug\nunit.framework.xml
+C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\obj\Debug\RoboCotacaoBradesco.csprojAssemblyReference.cache
+C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\obj\Debug\RoboCotacaoBradesco.csproj.CoreCompileInputs.cache
+C:\inetpub\wwwroot\RoboCotacaoBradesco\RoboCotacaoBradesco\obj\Debug\RoboCotacaoBradesco.csproj.CopyComplete

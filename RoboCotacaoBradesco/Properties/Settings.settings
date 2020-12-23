@@ -12,5 +12,11 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">user id=ADM;pwd=ADMUSR;Application Name=BRADESCO_SEGUROS;data source=TMKT-ZL-DB26;persist security info=False;connection reset=false;Pooling=true;Connection Lifetime=1800;initial catalog=BRADESCO_SEGUROS;min pool size=1;max pool size=999;Connect Timeout=1800</Value>
     </Setting>
+    <Setting Name="usuario" Type="System.String" Scope="User">
+      <Value Profile="(Default)">36350597818</Value>
+    </Setting>
+    <Setting Name="senha" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Br832010</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

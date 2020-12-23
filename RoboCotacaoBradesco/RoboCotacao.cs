@@ -30,8 +30,6 @@ namespace RoboCotacaoBradesco
 {
     public partial class RoboCotacao : Form
     {
-        public delegate void Del();
-
         #region Variaveis Globais
 
         int classe, CliCEP;
@@ -46,13 +44,8 @@ namespace RoboCotacaoBradesco
         }
 
         private void btnIniciar_Click(object sender, EventArgs e)
-        {
-            
+        {    
             CarregaMalingCotacao();
-             
-
-              
-            
         }
 
         #region Metodo loginPortalVendas
@@ -127,14 +120,6 @@ namespace RoboCotacaoBradesco
             #region Variaveis Fixas
 
             string URL = "https://wwws.bradescoseguros.com.br/CVCR-PortalDeVendas/acesso/login.do";
-            string usuario = "36350597818";
-            string senha = "Br832010";
-
-            #endregion
-
-            #region Variaveis Dinâmicas
-
-            
 
             #endregion
 
@@ -171,11 +156,11 @@ namespace RoboCotacaoBradesco
 
             // Inserindo o login no campo de usuário
             user = chromeDriver.FindElementById("login");
-            user.SendKeys(usuario);
+            user.SendKeys(RoboCotacaoBradesco.Properties.Settings.Default.usuario);
 
             // Inserindo o Password no campo de senha
             pass = chromeDriver.FindElementById("senha");
-            pass.SendKeys(senha);
+            pass.SendKeys(RoboCotacaoBradesco.Properties.Settings.Default.senha);
 
             // Clicando no Botão de Login
             btnLogin = chromeDriver.FindElementByClassName("btn");
@@ -1131,7 +1116,6 @@ namespace RoboCotacaoBradesco
 
                 foreach (var item in listaCliente)
                 {
-                    
                     loginPortalVendas(item);
                 }         
         }
@@ -1152,5 +1136,6 @@ namespace RoboCotacaoBradesco
                 return;
             }
         }
+        
     }
 }
