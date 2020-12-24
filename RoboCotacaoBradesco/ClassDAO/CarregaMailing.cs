@@ -55,5 +55,25 @@ namespace RoboCotacaoBradesco.ClassDAO
 
             return listaCliente;
         }
+
+        public void EnviaEmailCli(ClienteCotacao objCliente)
+        {
+            System.Data.SqlClient.SqlConnection conexao = new SqlConnection(RoboCotacaoBradesco.Properties.Settings.Default.AcessoBanco);
+            SqlCommand comando = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+           
+            
+
+            comando.Connection = conexao;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "STP_ENVIA_EMAIL_COTACAO";
+            comando.CommandTimeout = 3000;
+            comando.Parameters.Add("@DESTINATARIO", SqlDbType.VarChar).Value = objCliente.Cliente_Email ;//objAcessUser.Cliente_Email;
+            comando.Parameters.Add("@CPFCNPJ", SqlDbType.VarChar).Value = objCliente.Cliente_CPF_CNPJ;
+            da = new SqlDataAdapter(comando);
+            da.Fill(ds, "Dados");
+            conexao.Close();
+        }
     }
 }

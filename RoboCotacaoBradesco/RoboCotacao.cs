@@ -35,18 +35,32 @@ namespace RoboCotacaoBradesco
         int classe, CliCEP;
         string bonusAtual, Worksite, validaCampo;
         string veiculo = "PASSEIO";
+        int contNProcss = 0;
+        int contProcss = 0;
 
         #endregion
+
+         delegate void SimplesDelegate();
 
         public RoboCotacao()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
         }
 
         private void btnIniciar_Click(object sender, EventArgs e)
-        {    
-            CarregaMalingCotacao();
+        {
+            
+            Thread th = new Thread(new ThreadStart(this.CarregaMalingCotacao));
+            th.Start();  Thread.Sleep(3000);
+      
         }
+
+        public void msgLogin()
+        {
+            listBox1.Items.Add("Login efetuado com sucesso!");
+        }
+
 
         #region Metodo loginPortalVendas
         /*
@@ -58,6 +72,7 @@ namespace RoboCotacaoBradesco
 
         private void loginPortalVendas(ClienteCotacao objCliente)
         {
+
             #region Variaveis IWebElement
 
             // Variaveis - página de login
@@ -92,6 +107,7 @@ namespace RoboCotacaoBradesco
             IWebElement txtApoItem = null;
             IWebElement btnReiniciar = null;
             IWebElement txtLotacao = null;
+            IWebElement txtAnoVeic = null;
 
             // TIPO DE SOLICITANTE 6 = FUNCIONÁRIO APOSENTADO
 
@@ -129,6 +145,8 @@ namespace RoboCotacaoBradesco
             ChromeOptions optionsChrome = new ChromeOptions();
             var chromeDriverService = ChromeDriverService.CreateDefaultService(RoboCotacaoBradesco.Properties.Settings.Default.CaminhoDriverChrome.ToString());
             chromeDriverService.HideCommandPromptWindow = true;
+            SimplesDelegate SimplesDelegate = new SimplesDelegate(msgLogin);
+            CarregaMailing Dados = new CarregaMailing();
 
             #endregion
 
@@ -166,8 +184,8 @@ namespace RoboCotacaoBradesco
             btnLogin = chromeDriver.FindElementByClassName("btn");
             btnLogin.Click();
 
-            listBox1.Items.Add("Login efetuado com sucesso!");
-            listBox1.Items.Add("");
+            SimplesDelegate.Invoke();
+            
             #endregion
 
             #region Página seguro de automóvel
@@ -209,6 +227,10 @@ namespace RoboCotacaoBradesco
             #region Página Cálculo de Seguro Auto - Aba Solicitante
 
                 chromeDriver.SwitchTo().Window(chromeDriver.WindowHandles[2]);
+
+                listBox1.Items.Add("Processando CPF: " + objCliente.Cliente_CPF_CNPJ);
+
+            
 
                 txtNomeCont = chromeDriver.FindElementById("absc_txtNmContato"); Thread.Sleep(3000);
                 txtNomeCont.SendKeys(objCliente.Cliente_Nome);
@@ -283,7 +305,7 @@ namespace RoboCotacaoBradesco
                             txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
 
 
-                            SendKeys.Send("{ENTER}");
+                            SendKeys.SendWait("{ENTER}");
 
                             try
                             {
@@ -345,8 +367,13 @@ namespace RoboCotacaoBradesco
 
                             try
                             {
+
                                 txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
-                                txtLotacao.SendKeys("0"); Thread.Sleep(2000);
+                                validaCampo = txtLotacao.GetAttribute("value");
+                                if (validaCampo == "")
+                                {
+                                    txtLotacao.SendKeys("0"); Thread.Sleep(2000);
+                                }
                             }
                             catch
                             {
@@ -378,7 +405,9 @@ namespace RoboCotacaoBradesco
                             chromeDriver.Quit();
 
                             listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
-                            listBox1.Items.Add("------------------------------------------------------------------------------------------------");
+                            listBox1.Items.Add("");
+                            txtNProcessado.Text = (contNProcss++).ToString();
+                            
                             return;
                             }
                             catch
@@ -419,22 +448,20 @@ namespace RoboCotacaoBradesco
                             }
                             catch
                             {
-                                listBox1.Items.Add("CPF: " + objCliente.Cliente_CPF_CNPJ + " Encontra-se sem mátricula");
-                                return;
                             }
-                            SendKeys.Send("{ENTER}"); Thread.Sleep(2000);
+                            SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
 
                             try
                             {
                                 btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(4000);
-                                btnFecharAlert.Click(); Thread.Sleep(2000);
+                                btnFecharAlert.Click(); Thread.Sleep(3000);
                             }
                             catch
                             {
 
                             }
 
-                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(2000);
                             btnProximo.Click(); Thread.Sleep(2000);
 
                             #endregion
@@ -442,18 +469,18 @@ namespace RoboCotacaoBradesco
                             #region ABA SEGURO
                             try
                             {
-                                selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(1500);
+                                selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
 
-                                txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol");
+                                txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol"); Thread.Sleep(1500);
                                 txtApoSuc.SendKeys(objCliente.Cliente_Sucursal.ToString());
 
-                                txtApolice = chromeDriver.FindElementById("absegc_txtCapol");
+                                txtApolice = chromeDriver.FindElementById("absegc_txtCapol"); Thread.Sleep(1500);
                                 txtApolice.SendKeys(objCliente.Cliente_Apolice.ToString());
 
-                                txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol");
+                                txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol"); Thread.Sleep(1500);
                                 txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
 
-                                SendKeys.Send("{ENTER}"); Thread.Sleep(2000);
+                                SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
 
                             try
                             {
@@ -505,6 +532,20 @@ namespace RoboCotacaoBradesco
 
                             #region ABA AUTOMÓVEL
 
+                            txtAnoVeic = chromeDriver.FindElementById("abac_txtAnoFabricacao");
+                            string anoVeic = txtAnoVeic.GetAttribute("value");
+
+
+                            if (anoVeic == "")
+                            {
+                                listBox1.Items.Add("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
+                                listBox1.Items.Add("");
+                                txtNProcessado.Text = (txtNProcessado.Text + 1).ToString();
+                                chromeDriver.Quit();
+                                return;
+                                
+                            }
+
                             btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
                             btnProximo.Click();
 
@@ -533,8 +574,15 @@ namespace RoboCotacaoBradesco
 
                             }
 
-                            btnProximo = chromeDriver.FindElementByClassName("btnCalcular");Thread.Sleep(2000);
-                            btnProximo.Click(); Thread.Sleep(2000);
+                            try
+                            {
+                                btnProximo = chromeDriver.FindElementByClassName("btnCalcular"); Thread.Sleep(2000);
+                                btnProximo.Click(); Thread.Sleep(2000);
+                            }
+                            catch
+                            {
+                                
+                            }
 
                             // Erro ao tentar calcular - fecha o navegador e reinicia o metodo 
                             try
@@ -560,7 +608,9 @@ namespace RoboCotacaoBradesco
 
                             listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
                             listBox1.Items.Add("------------------------------------------------------------------------------------------------");
-                            return;
+                            txtNProcessado.Text = (contNProcss++).ToString();
+                            
+                                return;
                             }
                             catch
                             {
@@ -595,7 +645,7 @@ namespace RoboCotacaoBradesco
                                 txtCPFCNPJSol = chromeDriver.FindElementById("absc_txtCpfCnpjSol");
                                 txtCPFCNPJSol.SendKeys(objCliente.Cliente_CPF_CNPJ);
 
-                                SendKeys.Send("{ENTER}"); Thread.Sleep(2000);
+                                SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
 
                                 try
                                 {
@@ -635,7 +685,7 @@ namespace RoboCotacaoBradesco
                             txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol");
                             txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
 
-                            SendKeys.Send("{ENTER}"); Thread.Sleep(2000);
+                            SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
 
                             try
                             {
@@ -687,6 +737,21 @@ namespace RoboCotacaoBradesco
 
                             #region ABA CALCULAR
 
+                            try
+                            {
+
+                                txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
+                                validaCampo = txtLotacao.GetAttribute("value");
+                                if (validaCampo == "")
+                                {
+                                    txtLotacao.SendKeys("0"); Thread.Sleep(2000);
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+
                             btnProximo = chromeDriver.FindElementByClassName("btnCalcular");Thread.Sleep(2000);
                             btnProximo.Click(); Thread.Sleep(2000);
 
@@ -712,7 +777,9 @@ namespace RoboCotacaoBradesco
                             chromeDriver.Quit();
 
                             listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
-                            listBox1.Items.Add("------------------------------------------------------------------------------------------------");
+                            listBox1.Items.Add("");
+                            txtNProcessado.Text = (contNProcss++).ToString();
+                            
                             return;
                             }
                             catch
@@ -770,7 +837,7 @@ namespace RoboCotacaoBradesco
                             txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol");
                             txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
 
-                            SendKeys.Send("{ENTER}");
+                            SendKeys.SendWait("{ENTER}");
 
                              try
                             {
@@ -831,6 +898,21 @@ namespace RoboCotacaoBradesco
 
                             #region ABA CALCULAR
 
+                            try
+                            {
+
+                                txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
+                                validaCampo = txtLotacao.GetAttribute("value");
+                                if (validaCampo == "")
+                                {
+                                    txtLotacao.SendKeys("0"); Thread.Sleep(2000);
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+
                             btnProximo = chromeDriver.FindElementByClassName("btnCalcular");Thread.Sleep(2000);
                             btnProximo.Click(); Thread.Sleep(2000);
 
@@ -856,7 +938,10 @@ namespace RoboCotacaoBradesco
                             chromeDriver.Quit();
 
                             listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
-                            listBox1.Items.Add("------------------------------------------------------------------------------------------------");
+                            listBox1.Items.Add("");
+                            
+                            contNProcss++;
+
                             return;
                             }
                             catch
@@ -909,7 +994,7 @@ namespace RoboCotacaoBradesco
                             txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol");
                             txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
 
-                            SendKeys.Send("{ENTER}");
+                            SendKeys.SendWait("{ENTER}");
 
                              try
                             {
@@ -970,6 +1055,21 @@ namespace RoboCotacaoBradesco
                             
                             #region ABA CALCULAR
 
+                            try
+                            {
+
+                                txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
+                                validaCampo = txtLotacao.GetAttribute("value");
+                                if (validaCampo == "")
+                                {
+                                    txtLotacao.SendKeys("0"); Thread.Sleep(2000);
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+
                             btnProximo = chromeDriver.FindElementByClassName("btnCalcular");Thread.Sleep(2000);
                             btnProximo.Click(); Thread.Sleep(2000);
 
@@ -995,8 +1095,10 @@ namespace RoboCotacaoBradesco
                             chromeDriver.Quit();
 
                             listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
-                            listBox1.Items.Add("------------------------------------------------------------------------------------------------");
-                            return;
+                            listBox1.Items.Add("");
+                            contNProcss++;
+                                
+                                return;
                             }
                             catch
                             {
@@ -1042,29 +1144,31 @@ namespace RoboCotacaoBradesco
                         btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[2]/div/div/div[2]/form/div[3]/button[2]");
                         btnFecharAlert.Click(); Thread.Sleep(2000);
 
-                            
+                    }
+                catch
+                    {
 
-                        try
-                        {
+                    }
+
+
+                try
+                    {
                             btnFecharAlert = chromeDriver.FindElementById("btn_cancelar_gerarpdf");
                             btnFecharAlert.Click();
 
                             listBox1.Items.Add("Erro ao tentar Extrair PDF do CPF: " + objCliente.Cliente_CPF_CNPJ);
-                            listBox1.Items.Add("------------------------------------------------------------------------------------------------");
-                        }
-                        catch
-                        {
+                            listBox1.Items.Add("");
 
-                        }
+                            txtNProcessado.Text = (contNProcss++).ToString();
+                            
+                            chromeDriver.Quit();
+                            return;
+                     }
+                catch
+                     {
 
-                    }
-                    catch
-                    {
-                        
-                    }
+                     }
                     
-                    
-
                     try
                     {
                         btnProximo = chromeDriver.FindElementByXPath("/html/body/div[2]/div/div/div[2]/form/div[3]/button[3]"); Thread.Sleep(3000);
@@ -1094,30 +1198,39 @@ namespace RoboCotacaoBradesco
                     {
 
                     }
-                RenameFile("C:/Users/881912/Downloads/demonstrativo.pdf","C:/Users/881912/Downloads/Robo/"+ objCliente.Cliente_CPF_CNPJ + ".pdf");
-
-                listBox1.Items.Add("Cotação para o CPF: " + objCliente.Cliente_CPF_CNPJ + " OK!");
-                listBox1.Items.Add("------------------------------------------------------------------------------------------------");
+                    RenameFile("C:/Users/881912/Downloads/demonstrativo.pdf", "C:/Users/881912/Downloads/Robo/" + objCliente.Cliente_CPF_CNPJ + ".pdf"); Thread.Sleep(4000);
+                    Dados.EnviaEmailCli(objCliente);
+                
 
                 chromeDriver.Quit();
             
             #endregion
 
         }
-
         private void CarregaMalingCotacao()
         {
            
             ClassDAO.CarregaMailing Dados = new ClassDAO.CarregaMailing();
             ClassModelo.ClienteCotacao objAccessUser = new ClassModelo.ClienteCotacao();
             List<ClienteCotacao> listaCliente = new List<ClienteCotacao>();
+            DataSet ds = new DataSet();
+            
 
             listaCliente = Dados.CarregaMalingCotacao();
 
-                foreach (var item in listaCliente)
-                {
-                    loginPortalVendas(item);
-                }         
+            string qtdRec = listaCliente.Count.ToString();
+
+            txtRecebido.Text = qtdRec;
+
+            foreach (var item in listaCliente)
+            {
+
+                progressBar1.Increment(1);
+                loginPortalVendas(item);
+                
+            }
+  
+
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -1129,12 +1242,31 @@ namespace RoboCotacaoBradesco
         {
             try
             {
-                File.Move(originalName, newName);
+                File.Move(originalName, newName); Thread.Sleep(5000);
+                txtProcessado.Text = (contProcss++).ToString();
+                listBox1.Items.Add("CPF Processado com Sucesso!");
+                listBox1.Items.Add("");
+
+
+                
             }
             catch
             {
+                txtNProcessado.Text = (contNProcss++).ToString();
+                listBox1.Items.Add("CPF Não Processado");
+                listBox1.Items.Add("");
                 return;
             }
+        }
+
+        private void RoboCotacao_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
         }
         
     }

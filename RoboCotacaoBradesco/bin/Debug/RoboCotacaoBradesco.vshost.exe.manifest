@@ -78,14 +78,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RoboCotacaoBradesco.exe" size="824744">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RoboCotacaoBradesco.exe" size="827816">
       <assemblyIdentity name="RoboCotacaoBradesco" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>U4aAQvNNex4BAEPngGdXjS13outl3Cwwn+LQFKucqxM=</dsig:DigestValue>
+        <dsig:DigestValue>D3iOqrJ3JocLijH0FoeTKuyyJCISdEhe5dpRSy1q27o=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -143,13 +143,13 @@
       <dsig:DigestValue>zrIVEuwBchb5zB2LZERal6ydtJXHVzHrC/BNoL9CIao=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="RoboCotacaoBradesco.exe.config" size="1988">
+  <file name="RoboCotacaoBradesco.exe.config" size="2237">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>FmQxudLNiKukWv5gTEuPs5OR3aOcLdzXpk1C7rj/azg=</dsig:DigestValue>
+      <dsig:DigestValue>U7DJgnBYXRShTTaTLh+slibHkUYUWEdn3suq1sJZpUU=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>
