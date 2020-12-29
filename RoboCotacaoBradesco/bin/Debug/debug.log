@@ -159,3 +159,5 @@
 [1229/142241.824:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\881912\AppData\Local\Temp\scoped_dir15960_1046855411\Crashpad\attachments\58cdbb3f-477e-419b-bc0c-54bb94b38062: O sistema não pode encontrar o caminho especificado. (0x3)
 [1229/142242.628:ERROR:process_info.cc(359)] UncheckedAllocate
 [1229/142242.656:ERROR:process_info.cc(359)] UncheckedAllocate
+[1229/162655.072:ERROR:directory_reader_win.cc(43)] FindFirstFile: O sistema não pode encontrar o caminho especificado. (0x3)
+[1229/165251.944:ERROR:directory_reader_win.cc(43)] FindFirstFile: O sistema não pode encontrar o caminho especificado. (0x3)

@@ -1441,8 +1441,11 @@ namespace RoboCotacaoBradesco
 
                     try
                     {
-                        RenameFile("C:/Users/881912/Downloads/demonstrativo.pdf", "C:/Temp/PDFRobo/" + objCliente.Cliente_Clicodigo + ".pdf"); Thread.Sleep(4000);
+                        RenameFile("C:/Users/881912/Downloads/demonstrativo.pdf", "//tmkt.servicos.mkt/docs_ope/Transacoes/Ativos/BRADESCO_SEGUROS/ROBOCOTACAO/PDF/" + objCliente.Cliente_Clicodigo + ".pdf"); Thread.Sleep(4000);
                         Dados.EnviaEmailCli(objCliente);
+                        listBox1.Items.Add("E-mail enviado com sucesso!");
+                        listBox1.Items.Add("");
+
                         gravaLog(DateTime.Now + " - E-mail enviado ao cliente com sucesso!");
                         Dados.AtualizaFlg(objCliente);
                     }
@@ -1536,8 +1539,8 @@ namespace RoboCotacaoBradesco
         public void RenameFile(string nomeOriginal, string novoNome)
         {
             ClassDAO.CarregaMailing Dados = new ClassDAO.CarregaMailing();
-            
-            string folder = @"C:\Temp\PDFRobo";
+
+            string folder = @"\\tmkt.servicos.mkt\docs_ope\Transacoes\Ativos\BRADESCO_SEGUROS\ROBOCOTACAO\PDF";
 
             //Verificar se o diretorio ja existe, caso não
             // o diretório é criado no local indicado.
@@ -1601,7 +1604,7 @@ namespace RoboCotacaoBradesco
         /// <param name="Text"></param>
         private void gravaLog(string Text)
         {
-            string folder = @"C:\LogRoboBradesco"; 
+            string folder = @"\\tmkt.servicos.mkt\docs_ope\Transacoes\Ativos\BRADESCO_SEGUROS\ROBOCOTACAO\LOG"; 
 
             //Verificar se o diretorio ja existe, caso não
             // o diretório é criado no local indicado.
@@ -1614,7 +1617,7 @@ namespace RoboCotacaoBradesco
 
             }
 
-            StreamWriter writer = new StreamWriter("C:/LogRoboBradesco/Log" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".txt", true, Encoding.ASCII);
+            StreamWriter writer = new StreamWriter("//tmkt.servicos.mkt/docs_ope/Transacoes/Ativos/BRADESCO_SEGUROS/ROBOCOTACAO/LOG/" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".txt", true, Encoding.ASCII);
             {
                 writer.WriteLine(Text);
                 writer.Close();

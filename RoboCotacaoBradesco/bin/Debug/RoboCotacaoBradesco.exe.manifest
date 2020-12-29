@@ -78,14 +78,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RoboCotacaoBradesco.exe" size="834472">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RoboCotacaoBradesco.exe" size="834984">
       <assemblyIdentity name="RoboCotacaoBradesco" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>PyP1sMXKKyXgpH0+mP0AQGBwYqOAyCKHK02x3Tbm6hg=</dsig:DigestValue>
+        <dsig:DigestValue>6lRIkVAV0xFGqxDLp6qCvYoxLz45Q5xvY5a7Yf6WPy0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
