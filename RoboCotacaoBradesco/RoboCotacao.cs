@@ -1445,7 +1445,6 @@ namespace RoboCotacaoBradesco
                         Dados.EnviaEmailCli(objCliente);
                         listBox1.Items.Add("E-mail enviado com sucesso!");
                         listBox1.Items.Add("");
-
                         gravaLog(DateTime.Now + " - E-mail enviado ao cliente com sucesso!");
                         Dados.AtualizaFlg(objCliente);
                     }
