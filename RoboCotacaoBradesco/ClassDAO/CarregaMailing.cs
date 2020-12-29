@@ -35,7 +35,8 @@ namespace RoboCotacaoBradesco.ClassDAO
             List<ClienteCotacao> listaCliente = new List<ClienteCotacao>();
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
-                listaCliente.Add(new ClienteCotacao() { 
+                    listaCliente.Add(new ClienteCotacao() { 
+                    Cliente_Clicodigo = ds.Tables[0].Rows[i]["CLI_CODIGO"].ToString(),
                     Cliente_CPF_CNPJ = ds.Tables[0].Rows[i]["CPFCNPJ"].ToString(), 
                     Cliente_Nome = ds.Tables[0].Rows[i]["NOME"].ToString(),
                     Cliente_DDD = Convert.ToInt32(ds.Tables[0].Rows[i]["DDD"].ToString()),
@@ -48,8 +49,10 @@ namespace RoboCotacaoBradesco.ClassDAO
                     Cliente_Apolice = Convert.ToInt32(ds.Tables[0].Rows[i]["APOLICE"].ToString()),
                     Cliente_Item = Convert.ToInt32(ds.Tables[0].Rows[i]["ITEM"].ToString()),
                     Cliente_DtFimVigencia = Convert.ToDateTime(ds.Tables[0].Rows[i]["FIM_VIGENCIA"]),
-                    Cliente_Email = ds.Tables[0].Rows[i]["EMAIL"].ToString()
+                    Cliente_Email = ds.Tables[0].Rows[i]["EMAIL"].ToString(),
+                    Cliente_CEP = Convert.ToInt32(ds.Tables[0].Rows[i]["CEP"].ToString())
                 });
+                    
                   
             }
 
@@ -63,14 +66,32 @@ namespace RoboCotacaoBradesco.ClassDAO
             DataSet ds = new DataSet();
             SqlDataAdapter da;
            
-            
-
             comando.Connection = conexao;
             comando.CommandType = CommandType.StoredProcedure;
             comando.CommandText = "STP_ENVIA_EMAIL_COTACAO";
             comando.CommandTimeout = 3000;
-            comando.Parameters.Add("@DESTINATARIO", SqlDbType.VarChar).Value = objCliente.Cliente_Email ;//objAcessUser.Cliente_Email;
-            comando.Parameters.Add("@CPFCNPJ", SqlDbType.VarChar).Value = objCliente.Cliente_CPF_CNPJ;
+            comando.Parameters.Add("@DESTINATARIO", SqlDbType.VarChar).Value = objCliente.Cliente_Email ;
+            comando.Parameters.Add("@CLICODIGO", SqlDbType.VarChar).Value = objCliente.Cliente_Clicodigo;
+            comando.Parameters.Add("@FIMVIGEN", SqlDbType.DateTime).Value = objCliente.Cliente_DtFimVigencia;
+            comando.Parameters.Add("@SOLICITANTE", SqlDbType.VarChar).Value = objCliente.Cliente_campanha;
+            comando.Parameters.Add("@NOMECLI", SqlDbType.VarChar).Value = objCliente.Cliente_Nome;
+            da = new SqlDataAdapter(comando);
+            da.Fill(ds, "Dados");
+            conexao.Close();
+        }
+
+        public void AtualizaFlg(ClienteCotacao objCliente)
+        {
+            System.Data.SqlClient.SqlConnection conexao = new SqlConnection(RoboCotacaoBradesco.Properties.Settings.Default.AcessoBanco);
+            SqlCommand comando = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+
+            comando.Connection = conexao;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "STP_FLAG_ENVIO_COTACAO";
+            comando.CommandTimeout = 3000;
+            comando.Parameters.Add("@CLI_CODIGO", SqlDbType.VarChar).Value = objCliente.Cliente_Clicodigo;
             da = new SqlDataAdapter(comando);
             da.Fill(ds, "Dados");
             conexao.Close();

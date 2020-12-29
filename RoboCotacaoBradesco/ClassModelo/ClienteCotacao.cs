@@ -22,6 +22,7 @@ namespace RoboCotacaoBradesco.ClassModelo
         #region
 
         public int Cliente_SEQ { get; set; }
+        public string Cliente_Clicodigo { get; set; }
         public string Cliente_CPF_CNPJ { get; set; }
         public string Cliente_Nome { get; set; }
         public int Cliente_DDD { get; set; }

@@ -38,6 +38,7 @@
             this.txtProcessado = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtNProcessado = new System.Windows.Forms.TextBox();
+            this.btnCancelar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnIniciar
@@ -123,6 +124,19 @@
             this.txtNProcessado.TabIndex = 8;
             this.txtNProcessado.Text = "0";
             // 
+            // btnCancelar
+            // 
+            this.btnCancelar.BackColor = System.Drawing.Color.Honeydew;
+            this.btnCancelar.Font = new System.Drawing.Font("MingLiU_HKSCS-ExtB", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelar.Location = new System.Drawing.Point(12, 17);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(110, 58);
+            this.btnCancelar.TabIndex = 9;
+            this.btnCancelar.Text = "Cancelar e Fechar";
+            this.btnCancelar.UseVisualStyleBackColor = false;
+            this.btnCancelar.Visible = false;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
             // RoboCotacao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -130,6 +144,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.ForestGreen;
             this.ClientSize = new System.Drawing.Size(378, 521);
+            this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.txtNProcessado);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtProcessado);
@@ -162,6 +177,7 @@
         private System.Windows.Forms.TextBox txtProcessado;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtNProcessado;
+        private System.Windows.Forms.Button btnCancelar;
     }
 }
 
