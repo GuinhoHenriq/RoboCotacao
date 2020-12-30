@@ -18,5 +18,17 @@
     <Setting Name="senha" Type="System.String" Scope="User">
       <Value Profile="(Default)">Br832010</Value>
     </Setting>
+    <Setting Name="fileDelet" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\robo01\Downloads\demonstrativo.pdf</Value>
+    </Setting>
+    <Setting Name="renameFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:/Users/robo01/Downloads/demonstrativo.pdf</Value>
+    </Setting>
+    <Setting Name="CaminhoLog" Type="System.String" Scope="User">
+      <Value Profile="(Default)">//tmkt.servicos.mkt/docs_ope/Transacoes/Ativos/BRADESCO_SEGUROS/ROBOCOTACAO/LOG/</Value>
+    </Setting>
+    <Setting Name="URL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://wwws.bradescoseguros.com.br/CVCR-PortalDeVendas/acesso/login.do</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -64,6 +64,8 @@ namespace RoboCotacaoBradesco
             progressBar1.Style = ProgressBarStyle.Marquee;
             Thread th = new Thread(new ThreadStart(CarregaMalingCotacao));
             th.Start();
+
+            
         }
 
         #region Metodo loginPortalVendas
@@ -143,12 +145,6 @@ namespace RoboCotacaoBradesco
 
             #endregion
 
-            #region Variaveis Fixas
-
-            string URL = "https://wwws.bradescoseguros.com.br/CVCR-PortalDeVendas/acesso/login.do";
-
-            #endregion
-
             #region Instanciamento das classes
 
             OpenQA.Selenium.Chrome.ChromeDriver chromeDriver = null;
@@ -174,23 +170,23 @@ namespace RoboCotacaoBradesco
             // Iniciando a instância com as opções previamente configuradas
             chromeDriver = new ChromeDriver(chromeDriverService, optionsChrome);
 
-            //Acessando a URL que está setada fixamente.
-            chromeDriver.Navigate().GoToUrl(URL);
+            //Acessando a URL que está setada em Setting.
+            chromeDriver.Navigate().GoToUrl(RoboCotacaoBradesco.Properties.Settings.Default.URL);
 
             #endregion
 
             #region Página de login
 
             // Inserindo o login no campo de usuário
-            user = chromeDriver.FindElementById("login");
+            user = chromeDriver.FindElementById("login"); Thread.Sleep(2000);
             user.SendKeys(RoboCotacaoBradesco.Properties.Settings.Default.usuario);
 
             // Inserindo o Password no campo de senha
-            pass = chromeDriver.FindElementById("senha");
+            pass = chromeDriver.FindElementById("senha"); Thread.Sleep(2000);
             pass.SendKeys(RoboCotacaoBradesco.Properties.Settings.Default.senha);
 
             // Clicando no Botão de Login
-            btnLogin = chromeDriver.FindElementByClassName("btn");
+            btnLogin = chromeDriver.FindElementByClassName("btn"); Thread.Sleep(1000);
             btnLogin.Click();
             
             #endregion
@@ -226,33 +222,27 @@ namespace RoboCotacaoBradesco
             chromeDriver.SwitchTo().Window(chromeDriver.WindowHandles[1]); // Página Seguro de Automóvel
 
             // Clicando no botão de calculo
-            btnCalculo = chromeDriver.FindElementByClassName("icon-nav-editar");
+            btnCalculo = chromeDriver.FindElementByClassName("icon-nav-editar"); Thread.Sleep(1000);
             btnCalculo.Click();
 
             #endregion
 
             #region Página Cálculo de Seguro Auto - Aba Solicitante
 
-                chromeDriver.SwitchTo().Window(chromeDriver.WindowHandles[2]);
+            chromeDriver.SwitchTo().Window(chromeDriver.WindowHandles[2]);
 
                 listBox1.Items.Add("Processando CPF: " + objCliente.Cliente_CPF_CNPJ);
                 gravaLog(DateTime.Now + " - Trabalhando com o CPF: " + objCliente.Cliente_CPF_CNPJ);
-
-                try
-                {
-                    txtNomeCont = chromeDriver.FindElementById("absc_txtNmContato"); Thread.Sleep(3000);
+ 
+                    txtNomeCont = chromeDriver.FindElementById("absc_txtNmContato"); Thread.Sleep(1000);
                     txtNomeCont.SendKeys(objCliente.Cliente_Nome);
 
-                    txtDDD = chromeDriver.FindElementById("absc_txtDddFoneContato"); Thread.Sleep(1500);
+                    txtDDD = chromeDriver.FindElementById("absc_txtDddFoneContato"); Thread.Sleep(1000);
                     txtDDD.SendKeys(objCliente.Cliente_DDD.ToString());
 
                     txtTelCont = chromeDriver.FindElementById("absc_txtFoneContato");
                     txtTelCont.SendKeys(objCliente.Cliente_Telefone.ToString());
-                }
-                catch
-                {
-
-                }
+                
                 #endregion
 
             #region Variaveis DropdownList / Combobox
@@ -293,10 +283,22 @@ namespace RoboCotacaoBradesco
 
                             selectElement.SelectByText("FUNCIONÁRIO APOSENTADO");
 
-                            selectSucursal.SelectByText("579");
+                            selectSucursal.SelectByText(objCliente.Cliente_Sucursal.ToString());
+
+                             try
+                            {
+                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(4000);
+                                btnFecharAlert.Click(); Thread.Sleep(3000);
+                            }
+                            catch
+                            {
+
+                            }
 
                             txtNomeCont = chromeDriver.FindElementById("absc_txtNmFuncionario");
                             txtNomeCont.SendKeys(objCliente.Cliente_Nome);
+
+
 
                             btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
                             btnProximo.Click();
@@ -384,7 +386,7 @@ namespace RoboCotacaoBradesco
                                 {
                                     listBox1.Items.Add("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
                                     listBox1.Items.Add("");
-                                    txtNProcessado.Text = (txtNProcessado.Text + 1).ToString();
+                                    txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
                                     chromeDriver.Quit();
                                     return;
 
@@ -429,8 +431,9 @@ namespace RoboCotacaoBradesco
                                 validaCampo = txtLotacao.GetAttribute("value");
                                 if (validaCampo == "")
                                 {
-                                    txtLotacao.SendKeys("0"); Thread.Sleep(2000);
+                                    txtLotacao.SendKeys("5"); Thread.Sleep(2000);
                                 }
+                                SendKeys.Send("{ENTER}"); Thread.Sleep(2000);
                             }
                             catch
                             {
@@ -464,7 +467,7 @@ namespace RoboCotacaoBradesco
                             listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
                             listBox1.Items.Add("");
                             gravaLog(DateTime.Now + "Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
-                            txtNProcessado.Text = (contNProcss++).ToString();
+                            txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
                             
                             return;
                             }
@@ -617,7 +620,7 @@ namespace RoboCotacaoBradesco
                                 {
                                     listBox1.Items.Add("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
                                     listBox1.Items.Add("");
-                                    txtNProcessado.Text = (txtNProcessado.Text + 1).ToString();
+                                    txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
                                     chromeDriver.Quit();
                                     return;
 
@@ -703,7 +706,7 @@ namespace RoboCotacaoBradesco
 
                             listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
                             listBox1.Items.Add("");
-                            txtNProcessado.Text = (contNProcss++).ToString();
+                            txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
                             
                                 return;
                             }
@@ -744,7 +747,7 @@ namespace RoboCotacaoBradesco
 
                                 try
                                 {
-                                    btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
+                                    btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(1500);
                                     btnFecharAlert.Click();
                                 }
                                 catch
@@ -752,7 +755,7 @@ namespace RoboCotacaoBradesco
 
                                 }
 
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo");
+                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(3000);
                                 btnProximo.Click();
 
                             }
@@ -854,7 +857,7 @@ namespace RoboCotacaoBradesco
                                 {
                                     listBox1.Items.Add("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
                                     listBox1.Items.Add("");
-                                    txtNProcessado.Text = (txtNProcessado.Text + 1).ToString();
+                                    txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
                                     chromeDriver.Quit();
                                     return;
 
@@ -940,7 +943,7 @@ namespace RoboCotacaoBradesco
 
                             listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
                             listBox1.Items.Add("");
-                            txtNProcessado.Text = (contNProcss++).ToString();
+                            txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
                             
                                 return;
                             }
@@ -1061,7 +1064,7 @@ namespace RoboCotacaoBradesco
                                 {
                                     listBox1.Items.Add("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
                                     listBox1.Items.Add("");
-                                    txtNProcessado.Text = (txtNProcessado.Text + 1).ToString();
+                                    txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
                                     chromeDriver.Quit();
                                     return;
 
@@ -1147,7 +1150,7 @@ namespace RoboCotacaoBradesco
 
                             listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
                             listBox1.Items.Add("");
-                            txtNProcessado.Text = (contNProcss++).ToString();
+                            txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
                             
                                 return;
                             }
@@ -1247,7 +1250,7 @@ namespace RoboCotacaoBradesco
                                 {
                                     listBox1.Items.Add("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
                                     listBox1.Items.Add("");
-                                    txtNProcessado.Text = (txtNProcessado.Text + 1).ToString();
+                                    txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
                                     chromeDriver.Quit();
                                     return;
 
@@ -1360,7 +1363,7 @@ namespace RoboCotacaoBradesco
 
                     try
                     {
-                        File.Delete("C:/Users/881912/Downloads/demonstrativo.pdf");
+                        File.Delete(RoboCotacaoBradesco.Properties.Settings.Default.fileDelet);
                     }
                     catch
                     {
@@ -1377,11 +1380,11 @@ namespace RoboCotacaoBradesco
             // Fechar todos os alertas
                 try
                     {
-                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(2000);
-                        btnFecharAlert.Click(); Thread.Sleep(2000);
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(4000);
+                        btnFecharAlert.Click(); Thread.Sleep(3000);
 
                         btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[2]/div/div/div[2]/form/div[3]/button[2]");
-                        btnFecharAlert.Click(); Thread.Sleep(2000);
+                        btnFecharAlert.Click(); Thread.Sleep(3000);
 
                     }
                 catch
@@ -1399,7 +1402,7 @@ namespace RoboCotacaoBradesco
                             listBox1.Items.Add("");
                             gravaLog(DateTime.Now + " - Erro ao tentar Extrair PDF!");
 
-                            txtNProcessado.Text = (contNProcss++).ToString();
+                            txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
                             
                             chromeDriver.Quit();
                             return;
@@ -1441,7 +1444,7 @@ namespace RoboCotacaoBradesco
 
                     try
                     {
-                        RenameFile("C:/Users/881912/Downloads/demonstrativo.pdf", "//tmkt.servicos.mkt/docs_ope/Transacoes/Ativos/BRADESCO_SEGUROS/ROBOCOTACAO/PDF/" + objCliente.Cliente_Clicodigo + ".pdf"); Thread.Sleep(4000);
+                        RenameFile(RoboCotacaoBradesco.Properties.Settings.Default.renameFile, "//tmkt.servicos.mkt/docs_ope/Transacoes/Ativos/BRADESCO_SEGUROS/ROBOCOTACAO/PDF/" + objCliente.Cliente_Clicodigo + ".pdf"); Thread.Sleep(4000);                       
                         Dados.EnviaEmailCli(objCliente);
                         listBox1.Items.Add("E-mail enviado com sucesso!");
                         listBox1.Items.Add("");
@@ -1473,6 +1476,7 @@ namespace RoboCotacaoBradesco
             bool a = true;
             while (a == true)
             {
+                
                 limparTextBoxes(this.Controls);
 
                 #region Instanciamento das classes
@@ -1491,13 +1495,15 @@ namespace RoboCotacaoBradesco
                     listaCliente = Dados.CarregaMalingCotacao();
                     string qtdRec = listaCliente.Count.ToString();
                     gravaLog(DateTime.Now + " - Lista de clientes carregada com sucesso! Foi/Foram carregado(s) " + qtdRec + " Cliente(s)");
+                    listBox1.Items.Add("Lista de clientes carregada com sucesso!");
+                    listBox1.Items.Add("");
                     txtRecebido.Text = qtdRec;
                     
                 }
                 catch
                 {
                     gravaLog(DateTime.Now + " - Não foi possivel carregar a Lista de Clientes!");
-                    
+                    listBox1.Items.Add("Não foi possivel carregar a lista de clientes!");
                     return;
                 }
 
@@ -1510,6 +1516,8 @@ namespace RoboCotacaoBradesco
                     try
                     {
                         gravaLog(DateTime.Now + " - Iniciando o procedimento de gerar cotação e envio de e-mail ao Cliente!");
+                        encerraChromeDriver(); Thread.Sleep(3000);
+                        encerraChrome();
                         loginPortalVendas(item); 
                     }
                     catch
@@ -1539,23 +1547,10 @@ namespace RoboCotacaoBradesco
         {
             ClassDAO.CarregaMailing Dados = new ClassDAO.CarregaMailing();
 
-            string folder = @"\\tmkt.servicos.mkt\docs_ope\Transacoes\Ativos\BRADESCO_SEGUROS\ROBOCOTACAO\PDF";
-
-            //Verificar se o diretorio ja existe, caso não
-            // o diretório é criado no local indicado.
-
-            if (!Directory.Exists(folder))
-            {
-
-                //Criando o diretorio com o caminho informado
-                Directory.CreateDirectory(folder);
-
-            }
             try
             {
-
                 File.Move(nomeOriginal, novoNome); Thread.Sleep(5000);
-                txtProcessado.Text = (contProcss++).ToString();
+                txtProcessado.Text = Convert.ToInt32(contProcss++).ToString();
                 listBox1.Items.Add("PDF da Cotação gerada!");
                 listBox1.Items.Add("");  
                 gravaLog(DateTime.Now + " - PDF gerado com sucesso");
@@ -1563,10 +1558,9 @@ namespace RoboCotacaoBradesco
             }
             catch
             {
-                txtNProcessado.Text = (contNProcss++).ToString();
+                txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
                 listBox1.Items.Add("Não foi possivel gerar o PDF desta cotação!");
                 listBox1.Items.Add("");
-                //gravaLog(DateTime.Now + listBox1.Text);
                 gravaLog(DateTime.Now + " - Não foi possivel gerar o PDF para esse CPF");
                 return;
             }
@@ -1590,6 +1584,7 @@ namespace RoboCotacaoBradesco
         /// <param name="e"></param>
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            
             Process.GetCurrentProcess().Kill();
             btnCancelar.Visible = false;
             btnIniciar.Visible = true;
@@ -1616,7 +1611,7 @@ namespace RoboCotacaoBradesco
 
             }
 
-            StreamWriter writer = new StreamWriter("//tmkt.servicos.mkt/docs_ope/Transacoes/Ativos/BRADESCO_SEGUROS/ROBOCOTACAO/LOG/" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".txt", true, Encoding.ASCII);
+            StreamWriter writer = new StreamWriter(RoboCotacaoBradesco.Properties.Settings.Default.CaminhoLog + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".txt", true, Encoding.ASCII);
             {
                 writer.WriteLine(Text);
                 writer.Close();
@@ -1636,6 +1631,38 @@ namespace RoboCotacaoBradesco
                 }
             }
         }
+        #region Método que finaliza todas as instancias do ChromeDriver
+        private void encerraChromeDriver()
+        {
+            try
+            {
+                Process[] chromeDriverProcesses = Process.GetProcessesByName("chromedriver");
+                foreach (var chromeDriverProcess in chromeDriverProcesses)
+                {
+                    chromeDriverProcess.Kill();
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Não foi possível encerrar o processo do Chrome Driver");
+            }
+        }
+            private void encerraChrome()
+            {
+            try
+            {
+                Process[] chromeDriverProcesses = Process.GetProcessesByName("chrome"); Thread.Sleep(5000);
+                foreach (var chromeDriverProcess in chromeDriverProcesses)
+                {
+                    chromeDriverProcess.Kill();
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Não foi possível encerrar o processo do Chrome ");
+            }
+            }
+        #endregion
 
     }
 }
