@@ -30,5 +30,8 @@
     <Setting Name="URL" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://wwws.bradescoseguros.com.br/CVCR-PortalDeVendas/acesso/login.do</Value>
     </Setting>
+    <Setting Name="CaminhoPDF" Type="System.String" Scope="User">
+      <Value Profile="(Default)">//tmkt.servicos.mkt/docs_ope/Transacoes/Ativos/BRADESCO_SEGUROS/ROBOCOTACAO/PDF/</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

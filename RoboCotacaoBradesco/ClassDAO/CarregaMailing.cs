@@ -96,5 +96,22 @@ namespace RoboCotacaoBradesco.ClassDAO
             da.Fill(ds, "Dados");
             conexao.Close();
         }
+
+        public void AtualizaTent(ClienteCotacao objCliente)
+        {
+            System.Data.SqlClient.SqlConnection conexao = new SqlConnection(RoboCotacaoBradesco.Properties.Settings.Default.AcessoBanco);
+            SqlCommand comando = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+
+            comando.Connection = conexao;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "STP_TENTATIVA_ENVIO_COTACAO";
+            comando.CommandTimeout = 3000;
+            comando.Parameters.Add("@CLICODIGO", SqlDbType.VarChar).Value = objCliente.Cliente_Clicodigo;
+            da = new SqlDataAdapter(comando);
+            da.Fill(ds, "Dados");
+            conexao.Close();
+        }
     }
 }

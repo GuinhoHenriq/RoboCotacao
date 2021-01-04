@@ -65,8 +65,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>iconfinder_robo_to_334741.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -166,9 +165,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="iconfinder_robo_to_334741.ico" />
     <Content Include="img\cropped-logo-tmkt-insta.png" />
     <Content Include="img\logo.png" />
     <Content Include="img\kisspng-robotic-process-automation-computer-icons-5ae49b3f22eab3.972773681524931391143.ico" />
+    <Content Include="kisspng-robotic-process-automation-computer-icons-5ae49b3f22eab3.972773681524931391143.ico" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

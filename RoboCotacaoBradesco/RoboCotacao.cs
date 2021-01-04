@@ -25,8 +25,7 @@ using System.Collections;
 using System.IO;
 using RoboCotacaoBradesco.ClassDAO;
 using RoboCotacaoBradesco.ClassModelo;
-using System.Diagnostics;
-using System.IO;
+
 
 namespace RoboCotacaoBradesco
 {
@@ -34,16 +33,13 @@ namespace RoboCotacaoBradesco
     {
         #region Variaveis Globais
 
-        int classe, CliCEP;
+        int classe;
         string bonusAtual, Worksite, validaCampo;
         string veiculo = "PASSEIO";
         int contNProcss = 0;
         int contProcss = 0;
 
-
         #endregion
-
-         delegate void SimplesDelegate();
 
         public RoboCotacao()
         {
@@ -60,6 +56,7 @@ namespace RoboCotacaoBradesco
             contProcss++;
             listBox1.Items.Add("Robô iniciado!");
             listBox1.Items.Add("");
+            gravaLog("Robo iniciado!");
             progressBar1.MarqueeAnimationSpeed = 25;
             progressBar1.Style = ProgressBarStyle.Marquee;
             Thread th = new Thread(new ThreadStart(CarregaMalingCotacao));
@@ -173,6 +170,8 @@ namespace RoboCotacaoBradesco
             //Acessando a URL que está setada em Setting.
             chromeDriver.Navigate().GoToUrl(RoboCotacaoBradesco.Properties.Settings.Default.URL);
 
+            gravaLog("Pagina de login aberta!");
+
             #endregion
 
             #region Página de login
@@ -199,8 +198,6 @@ namespace RoboCotacaoBradesco
 
             }
 
-
-            
             #endregion
 
             #region Página seguro de automóvel
@@ -243,949 +240,940 @@ namespace RoboCotacaoBradesco
 
             chromeDriver.SwitchTo().Window(chromeDriver.WindowHandles[2]);
 
-                listBox1.Items.Add("Processando CPF: " + objCliente.Cliente_CPF_CNPJ);
-                gravaLog("Trabalhando com o CPF: " + objCliente.Cliente_CPF_CNPJ);
- 
-                    txtNomeCont = chromeDriver.FindElementById("absc_txtNmContato"); Thread.Sleep(1000);
-                    txtNomeCont.SendKeys(objCliente.Cliente_Nome);
+            listBox1.Items.Add("Processando CPF: " + objCliente.Cliente_CPF_CNPJ);
+            gravaLog("Trabalhando com o CPF: " + objCliente.Cliente_CPF_CNPJ);
 
-                    txtDDD = chromeDriver.FindElementById("absc_txtDddFoneContato"); Thread.Sleep(1000);
-                    txtDDD.SendKeys(objCliente.Cliente_DDD.ToString());
+            txtNomeCont = chromeDriver.FindElementById("absc_txtNmContato"); Thread.Sleep(1000);
+            txtNomeCont.SendKeys(objCliente.Cliente_Nome);
 
-                    txtTelCont = chromeDriver.FindElementById("absc_txtFoneContato");
-                    txtTelCont.SendKeys(objCliente.Cliente_Telefone.ToString());
-                
-                #endregion
+            txtDDD = chromeDriver.FindElementById("absc_txtDddFoneContato"); Thread.Sleep(1000);
+            txtDDD.SendKeys(objCliente.Cliente_DDD.ToString());
+
+            txtTelCont = chromeDriver.FindElementById("absc_txtFoneContato");
+            txtTelCont.SendKeys(objCliente.Cliente_Telefone.ToString());
+
+            #endregion
 
             #region Variaveis DropdownList / Combobox
 
-                dpSucursal = chromeDriver.FindElementById("absc_cmbsucursal");
-                var selectSucursal = new SelectElement(dpSucursal);
+            dpSucursal = chromeDriver.FindElementById("absc_cmbsucursal");
+            var selectSucursal = new SelectElement(dpSucursal);
 
-                dpCampanha = chromeDriver.FindElementById("absc_cmbCampanha");
-                var selectCampanha = new SelectElement(dpCampanha);
+            dpCampanha = chromeDriver.FindElementById("absc_cmbCampanha");
+            var selectCampanha = new SelectElement(dpCampanha);
 
-                dpSolicitante = chromeDriver.FindElementById("absc_cmbTipoSolicitante");
-                var selectElement = new SelectElement(dpSolicitante);
+            dpSolicitante = chromeDriver.FindElementById("absc_cmbTipoSolicitante");
+            var selectElement = new SelectElement(dpSolicitante);
 
-                dpVeiculo = chromeDriver.FindElementById("absc_cmbTipoVeiculo");
-                var selectVeiculo = new SelectElement(dpVeiculo);
+            dpVeiculo = chromeDriver.FindElementById("absc_cmbTipoVeiculo");
+            var selectVeiculo = new SelectElement(dpVeiculo);
 
-                dpCia = chromeDriver.FindElementById("absegc_cmbCia");
-                var selectCia = new SelectElement(dpCia);
+            dpCia = chromeDriver.FindElementById("absegc_cmbCia");
+            var selectCia = new SelectElement(dpCia);
 
-                dpBonusAtual = chromeDriver.FindElementById("absegc_cmbClasseBonusAtual");
-                var selectBonus = new SelectElement(dpBonusAtual);
+            dpBonusAtual = chromeDriver.FindElementById("absegc_cmbClasseBonusAtual");
+            var selectBonus = new SelectElement(dpBonusAtual);
 
-                dpWorksite = chromeDriver.FindElementById("absc_cmbworksite");
-                var selectWorksite = new SelectElement(dpWorksite);
+            dpWorksite = chromeDriver.FindElementById("absc_cmbworksite");
+            var selectWorksite = new SelectElement(dpWorksite);
 
 
-                #endregion
+            #endregion
 
             #region switch Tipo de Solicitante
 
-                gravaLog("Tipo de solicitante escolhido: " + objCliente.Cliente_campanha);
+            gravaLog("Tipo de solicitante escolhido: " + objCliente.Cliente_campanha);
 
-                    switch (objCliente.Cliente_campanha)
+            switch (objCliente.Cliente_campanha)
+            {
+                #region FUNCIONÁRIO APOSENTADO
+
+                case "FUNCIONÁRIO APOSENTADO":
+
+                    #region ABA SOLICITANTE
+
+                    selectElement.SelectByText("FUNCIONÁRIO APOSENTADO");
+
+                    selectSucursal.SelectByText(objCliente.Cliente_Sucursal.ToString());
+
+                    try
                     {
-                        #region FUNCIONÁRIO APOSENTADO
-
-                        case "FUNCIONÁRIO APOSENTADO":
-
-                            #region ABA SOLICITANTE
-
-                            selectElement.SelectByText("FUNCIONÁRIO APOSENTADO");
-
-                            selectSucursal.SelectByText(objCliente.Cliente_Sucursal.ToString());
-
-                             try
-                            {
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(4000);
-                                btnFecharAlert.Click(); Thread.Sleep(3000);
-                            }
-                            catch
-                            {
-
-                            }
-
-                            txtNomeCont = chromeDriver.FindElementById("absc_txtNmFuncionario");
-                            txtNomeCont.SendKeys(objCliente.Cliente_Nome);
-
-
-
-                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                            btnProximo.Click();
-
-                            gravaLog("Aba solicitante preenchida corretamente");
-
-                            #endregion
-
-                            #region ABA SEGURO
-
-                            selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
-
-                            txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol");
-                            txtApoSuc.SendKeys(objCliente.Cliente_Sucursal.ToString());
-
-                            txtApolice = chromeDriver.FindElementById("absegc_txtCapol");
-                            txtApolice.SendKeys(objCliente.Cliente_Apolice.ToString());
-
-                            txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol");
-                            txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
-
-                            gravaLog("Informações do cliente carregadas com sucesso!");
-
-                            SendKeys.SendWait("{ENTER}");
-
-                            try
-                            {
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(1500);
-                                btnFecharAlert.Click();
-                            }
-                            catch
-                            {
-                               
-                            }
-                            try
-                            {
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
-                                btnFecharAlert.Click();
-                            }
-                            catch
-                            {
-                                
-                            }
-                            try
-                            {
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[7]/div/div/div[1]/button"); Thread.Sleep(1500);
-                                btnFecharAlert.Click();
-                            }
-                            catch
-                            {
-
-                            }
-
-                            txtSinistro = chromeDriver.FindElementById("absegc_cmbHouveSinistro");
-                            txtSinistro.SendKeys("Nao");
-
-                            dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
-                            dpBonusAnterior.GetAttribute("value");
-
-                            classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) + 1;
-                            bonusAtual = "Classe " + classe;
-
-                            if (bonusAtual == "Classe 11")
-                            {
-                                selectBonus.SelectByText("Classe 10");
-                            }
-
-                            else
-                            {
-                                selectBonus.SelectByText(bonusAtual);
-                            }
-
-                            gravaLog("Selecionando o Bonus...");
-                            gravaLog("Bonus carregado com sucesso!");
-
-                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                            btnProximo.Click();
-
-                            #endregion
-
-                            #region ABA AUTOMÓVEL
-
-                            try
-                            {
-
-
-                                txtAnoVeic = chromeDriver.FindElementById("abac_txtAnoFabricacao");
-                                string anoVeic = txtAnoVeic.GetAttribute("value");
-
-                                if (anoVeic == "")
-                                {
-                                    listBox1.Items.Add("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
-                                    listBox1.Items.Add("");
-                                    gravaLog("Ocorreu um erro ao tentar trabalhar o CPF: " + objCliente.Cliente_CPF_CNPJ);
-                                    txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
-                                    chromeDriver.Quit();
-                                    return;
-
-                                }
-                            }
-                            catch
-                            {
-
-                            }
-
-                            try
-                            {
-
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
-
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
-
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
-
-                                
-                            }
-                            catch
-                            {
-                                chromeDriver.Quit();
-                                listBox1.Items.Add("Não foi possivel prosseguir!");
-                                listBox1.Items.Add("");
-                                contNProcss++;
-                                return;
-                            }
-                            
-                            #endregion
-
-                            #region ABA CALCULAR
-
-                            try
-                            {
-
-                                txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
-                                validaCampo = txtLotacao.GetAttribute("value");
-                                if (validaCampo == "")
-                                {
-                                    txtLotacao.SendKeys("5"); Thread.Sleep(2000);
-                                }
-                                SendKeys.Send("{ENTER}"); Thread.Sleep(2000);
-                            }
-                            catch
-                            {
-
-                            }
-
-                            btnProximo = chromeDriver.FindElementByClassName("btnCalcular");Thread.Sleep(2000);
-                            btnProximo.Click(); Thread.Sleep(2000);
-
-                            // Erro ao tentar calcular - fecha o navegador
-                            try
-                            {
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(3000);
-                                btnFecharAlert.Click(); Thread.Sleep(3000);
-                            }
-                            catch
-                            {
-
-                            }
-                            
-                            try
-                            {
-                            btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
-                            btnFecharAlert.Click();
-
-                            btnReiniciar = chromeDriver.FindElementByClassName("btnRestart");
-                            btnReiniciar.Click();
-
-                            chromeDriver.Quit(); Thread.Sleep(2000);
-
-                            listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
-                            listBox1.Items.Add("");
-                            gravaLog("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
-                            txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
-                            
-                            return;
-                            }
-                            catch
-                            {
-
-                            }
-
-                            try
-                            {
-
-                            btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
-                            btnFecharAlert.Click();
-                            
-                            }
-                            catch
-                            {
-
-                            }
-
-                            #endregion
-
-                            break;
-
-                        #endregion
-
-                        #region FUNCIONÁRIO
-
-                        case "FUNCIONÁRIO":
-
-                            #region ABA SOLICITANTE 
-
-                            selectElement.SelectByText("FUNCIONÁRIO");
-
-                            try
-                            {
-                                txtMatricula = chromeDriver.FindElementById("absc_txtMatricula");
-                                txtMatricula.SendKeys(objCliente.Cliente_Matricula); Thread.Sleep(1000);
-                            }
-                            catch
-                            {
-                            }
-
-                            SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
-
-                            try
-                            {
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(4000);
-                                btnFecharAlert.Click(); Thread.Sleep(3000);
-                            }
-                            catch
-                            {
-
-                            }
-
-                            try
-                            {
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(2000);
-                                btnProximo.Click(); Thread.Sleep(2000);
-                            }
-                            catch
-                            {
-
-                            }
-                            #endregion
-
-                            #region ABA SEGURO
-                            try
-                            {
-                                selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
-
-                                txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol"); Thread.Sleep(1500);
-                                txtApoSuc.SendKeys(objCliente.Cliente_Sucursal.ToString());
-
-                                txtApolice = chromeDriver.FindElementById("absegc_txtCapol"); Thread.Sleep(1500);
-                                txtApolice.SendKeys(objCliente.Cliente_Apolice.ToString());
-
-                                txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol"); Thread.Sleep(1500);
-                                txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
-
-                                SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
-
-                            try
-                            {
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(1500);
-                                btnFecharAlert.Click();
-                            }
-                            catch
-                            {
-
-                            }
-                            try
-                            {
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
-                                btnFecharAlert.Click();
-                            }
-                            catch
-                            {
-
-                            }
-
-                            try
-                            {
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[7]/div/div/div[1]/button"); Thread.Sleep(1500);
-                                btnFecharAlert.Click();
-                            }
-                            catch
-                            {
-
-                            }
-                             
-                            txtSinistro = chromeDriver.FindElementById("absegc_cmbHouveSinistro"); Thread.Sleep(2000);
-                            txtSinistro.SendKeys("Nao"); Thread.Sleep(2000);
-
-                            dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
-                            dpBonusAnterior.GetAttribute("value");
-
-                            classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) + 1;
-                            bonusAtual = "Classe " + classe;
-
-                            if (bonusAtual == "Classe 11")
-                            {
-                                selectBonus.SelectByText("Classe 10");
-                            }
-
-                            else
-                            {
-                                selectBonus.SelectByText(bonusAtual);
-                            }
-
-                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                            btnProximo.Click();
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(4000);
+                        btnFecharAlert.Click(); Thread.Sleep(3000);
                     }
-                            catch
-                            {
+                    catch
+                    {
 
-                            }
-                            #endregion
+                    }
 
-                            #region ABA AUTOMÓVEL
-
-                            try
-                            {
+                    txtNomeCont = chromeDriver.FindElementById("absc_txtNmFuncionario");
+                    txtNomeCont.SendKeys(objCliente.Cliente_Nome);
 
 
-                                txtAnoVeic = chromeDriver.FindElementById("abac_txtAnoFabricacao");
-                                string anoVeic = txtAnoVeic.GetAttribute("value");
 
-                                if (anoVeic == "")
-                                {
-                                    listBox1.Items.Add("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
-                                    listBox1.Items.Add("");
-                                    txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
-                                    chromeDriver.Quit();
-                                    return;
+                    btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                    btnProximo.Click();
 
-                                }
-                            }
-                            catch
-                            {
+                    gravaLog("Aba solicitante preenchida corretamente");
 
-                            }
+                    #endregion
 
-                            try
-                            {
+                    #region ABA SEGURO
 
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
+                    selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
 
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
+                    txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol");
+                    txtApoSuc.SendKeys(objCliente.Cliente_Sucursal.ToString());
 
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
+                    txtApolice = chromeDriver.FindElementById("absegc_txtCapol");
+                    txtApolice.SendKeys(objCliente.Cliente_Apolice.ToString());
 
-                                
-                            }
-                            catch
-                            {
-                                chromeDriver.Quit();
-                                listBox1.Items.Add("Não foi possivel prosseguir!");
-                                listBox1.Items.Add("");
-                                contNProcss++;
-                                return;
-                            }
-                            #endregion
+                    txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol");
+                    txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
 
-                            #region ABA CALCULAR
+                    gravaLog("Informações do cliente carregadas com sucesso!");
 
-                            try
-                            {
+                    SendKeys.SendWait("{ENTER}");
 
-                                txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
-                                validaCampo = txtLotacao.GetAttribute("value");
-                                if (validaCampo == "")
-                                {
-                                    txtLotacao.SendKeys("0"); Thread.Sleep(2000);
-                                }                               
-                            }
-                            catch
-                            {
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(1500);
+                        btnFecharAlert.Click();
+                    }
+                    catch
+                    {
 
-                            }
+                    }
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
+                        btnFecharAlert.Click();
+                    }
+                    catch
+                    {
 
-                            try
-                            {
-                                btnProximo = chromeDriver.FindElementByClassName("btnCalcular"); Thread.Sleep(2000);
-                                btnProximo.Click(); Thread.Sleep(2000);
-                            }
-                            catch
-                            {
-                                
-                            }
+                    }
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[7]/div/div/div[1]/button"); Thread.Sleep(1500);
+                        btnFecharAlert.Click();
+                    }
+                    catch
+                    {
 
-                            // Erro ao tentar calcular - fecha o navegador e reinicia o metodo 
-                            try
-                            {
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(3000);
-                                btnFecharAlert.Click(); Thread.Sleep(3000);
+                    }
 
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(3000);
-                                btnFecharAlert.Click(); Thread.Sleep(3000);
-                                
-                            }
-                            catch
-                            {
+                    txtSinistro = chromeDriver.FindElementById("absegc_cmbHouveSinistro");
+                    txtSinistro.SendKeys("Nao");
 
-                            }
-                            
-                            try
-                            {
+                    dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
+                    dpBonusAnterior.GetAttribute("value");
+
+                    classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) + 1;
+                    bonusAtual = "Classe " + classe;
+
+                    if (bonusAtual == "Classe 11")
+                    {
+                        selectBonus.SelectByText("Classe 10");
+                    }
+
+                    else
+                    {
+                        selectBonus.SelectByText(bonusAtual);
+                    }
+
+                    gravaLog("Selecionando o Bonus...");
+                    gravaLog("Bonus carregado com sucesso!");
+
+                    btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                    btnProximo.Click();
+
+                    #endregion
+
+                    #region ABA AUTOMÓVEL
+
+                    try
+                    {
+
+
+                        txtAnoVeic = chromeDriver.FindElementById("abac_txtAnoFabricacao");
+                        string anoVeic = txtAnoVeic.GetAttribute("value");
+
+                        if (anoVeic == "")
+                        {
+                            listBox1.Items.Add("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
+                            listBox1.Items.Add("");
+                            gravaLog("Ocorreu um erro ao tentar trabalhar o CPF: " + objCliente.Cliente_CPF_CNPJ);
+                            txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
+                            chromeDriver.Quit();
+                            Dados.AtualizaTent(objCliente);
+                            return;
+
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+
+                    try
+                    {
+
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
+
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
+
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
+
+
+                    }
+                    catch
+                    {
+                        chromeDriver.Quit();
+                        listBox1.Items.Add("Não foi possivel prosseguir!");
+                        listBox1.Items.Add("");
+                        gravaLog("Não foi possivel prosseguir para a aba calcular");
+                        contNProcss++;
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
+
+                    #endregion
+
+                    #region ABA CALCULAR
+                    gravaLog("Aba calcular acessada!");
+                    try
+                    {
+
+                        txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
+                        validaCampo = txtLotacao.GetAttribute("value");
+                        gravaLog("Inserindo valor no campo de lotacao");
+                        if (validaCampo == "")
+                        {
+                            txtLotacao.SendKeys("5"); Thread.Sleep(2000);
+                        }
+                        SendKeys.Send("{ENTER}"); Thread.Sleep(2000);
+                    }
+                    catch
+                    {
+
+                    }
+
+                    btnProximo = chromeDriver.FindElementByClassName("btnCalcular"); Thread.Sleep(2000);
+                    btnProximo.Click(); Thread.Sleep(2000);
+                    gravaLog("Efetuando o calculo!");
+
+                    // Erro ao tentar calcular - fecha o navegador
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(3000);
+                        btnFecharAlert.Click(); Thread.Sleep(3000);
+                    }
+                    catch
+                    {
+
+                    }
+
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
+                        btnFecharAlert.Click();
+
+                        btnReiniciar = chromeDriver.FindElementByClassName("btnRestart");
+                        btnReiniciar.Click();
+
+                        chromeDriver.Quit(); Thread.Sleep(2000);
+
+                        listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
+                        listBox1.Items.Add("");
+                        gravaLog("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
+                        txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
+                    catch
+                    {
+
+                    }
+
+                    try
+                    {
+
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
+                        btnFecharAlert.Click();
+
+                    }
+                    catch
+                    {
+
+                    }
+
+                    #endregion
+
+                    break;
+
+                #endregion
+
+                #region FUNCIONÁRIO
+
+                case "FUNCIONÁRIO":
+
+                    #region ABA SOLICITANTE
+
+                    selectElement.SelectByText("FUNCIONÁRIO");
+
+                    try
+                    {
+                        txtMatricula = chromeDriver.FindElementById("absc_txtMatricula");
+                        txtMatricula.SendKeys(objCliente.Cliente_Matricula); Thread.Sleep(1000);
+                    }
+                    catch
+                    {
+                    }
+
+                    SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
+
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(4000);
+                        btnFecharAlert.Click(); Thread.Sleep(3000);
+                    }
+                    catch
+                    {
+
+                    }
+
+                    try
+                    {
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(2000);
+                        btnProximo.Click(); Thread.Sleep(2000);
+                    }
+                    catch
+                    {
+
+                    }
+                    #endregion
+
+                    #region ABA SEGURO
+                    try
+                    {
+                        selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
+
+                        gravaLog("Aba Solicitante preenchida com sucesso!");
+
+                        gravaLog("Dados do cliente carregados com sucesso!");
+
+                        txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol"); Thread.Sleep(1500);
+                        txtApoSuc.SendKeys(objCliente.Cliente_Sucursal.ToString());
+
+                        txtApolice = chromeDriver.FindElementById("absegc_txtCapol"); Thread.Sleep(1500);
+                        txtApolice.SendKeys(objCliente.Cliente_Apolice.ToString());
+
+                        txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol"); Thread.Sleep(1500);
+                        txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
+
+                        SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
+
+                        try
+                        {
+                            btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(1500);
+                            btnFecharAlert.Click();
+                        }
+                        catch
+                        {
+
+                        }
+                        try
+                        {
                             btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
                             btnFecharAlert.Click();
+                        }
+                        catch
+                        {
 
-                            chromeDriver.Quit();
+                        }
 
-                            listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
+                        try
+                        {
+                            btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[7]/div/div/div[1]/button"); Thread.Sleep(1500);
+                            btnFecharAlert.Click();
+                        }
+                        catch
+                        {
+
+                        }
+
+                        txtSinistro = chromeDriver.FindElementById("absegc_cmbHouveSinistro"); Thread.Sleep(2000);
+                        txtSinistro.SendKeys("Nao"); Thread.Sleep(2000);
+
+                        dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
+                        dpBonusAnterior.GetAttribute("value");
+
+                        classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) + 1;
+                        bonusAtual = "Classe " + classe;
+
+                        gravaLog("Selecionando Bonus!");
+
+                        if (bonusAtual == "Classe 11")
+                        {
+                            selectBonus.SelectByText("Classe 10");
+                        }
+
+                        else
+                        {
+                            selectBonus.SelectByText(bonusAtual);
+                        }
+
+                        gravaLog("Bonus selecionado");
+
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
+                    }
+                    catch
+                    {
+
+                    }
+                    #endregion
+
+                    #region ABA AUTOMÓVEL
+
+                    try
+                    {
+
+
+                        txtAnoVeic = chromeDriver.FindElementById("abac_txtAnoFabricacao");
+                        string anoVeic = txtAnoVeic.GetAttribute("value");
+
+                        if (anoVeic == "")
+                        {
+                            listBox1.Items.Add("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
                             listBox1.Items.Add("");
+                            gravaLog("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
                             txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
-                            
-                                return;
-                            }
-                            catch
-                            {
+                            chromeDriver.Quit();
+                            Dados.AtualizaTent(objCliente);
+                            return;
 
-                            }
+                        }
+                    }
+                    catch
+                    {
 
-                           
-                            #endregion
+                    }
 
-                            break;
+                    try
+                    {
 
-                        #endregion
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
 
-                        #region CORRENTISTA
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
 
-                        case "CORRENTISTA":
-
-                            #region ABA SOLICITANTE
-
-                            selectElement.SelectByText("CORRENTISTA");
-
-                            selectCampanha.SelectByText("Sem campanha");
-
-                            txtAgencia = chromeDriver.FindElementById("absc_txtAgencia");
-                            txtAgencia.SendKeys(objCliente.Cliente_Agencia.ToString());
-
-                            if (veiculo == "ESPORTIVO" || veiculo == "MOTOCICLETA" || veiculo == "PASSEIO" || veiculo == "PLACA LEVE" || veiculo == "PLACA PESADA PESSOA" || veiculo == "PLACA PESADA CARGA")
-                            {
-
-                                selectVeiculo.SelectByText("PASSEIO"); Thread.Sleep(1500);
-
-                                txtCPFCNPJSol = chromeDriver.FindElementById("absc_txtCpfCnpjSol");
-                                txtCPFCNPJSol.SendKeys(objCliente.Cliente_CPF_CNPJ);
-
-                                SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
-
-                                try
-                                {
-                                    btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(1500);
-                                    btnFecharAlert.Click();
-                                }
-                                catch
-                                {
-
-                                }
-
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(3000);
-                                btnProximo.Click();
-
-                            }
-                            else
-                            {
-
-                                selectVeiculo.SelectByText(veiculo); Thread.Sleep(3000);
-
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
-                            }
-
-                            #endregion
-
-                            #region ABA SEGURO
-
-                            try
-                            {
-                                selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
-
-                                txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol"); Thread.Sleep(1500);
-                                txtApoSuc.SendKeys(objCliente.Cliente_Sucursal.ToString());
-
-                                txtApolice = chromeDriver.FindElementById("absegc_txtCapol"); Thread.Sleep(1500);
-                                txtApolice.SendKeys(objCliente.Cliente_Apolice.ToString());
-
-                                txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol"); Thread.Sleep(1500);
-                                txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
-
-                                SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
-
-                                try
-                                {
-                                    btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(1500);
-                                    btnFecharAlert.Click();
-                                }
-                                catch
-                                {
-
-                                }
-                                try
-                                {
-                                    btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
-                                    btnFecharAlert.Click();
-                                }
-                                catch
-                                {
-
-                                }
-
-                                try
-                                {
-                                    btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[7]/div/div/div[1]/button"); Thread.Sleep(1500);
-                                    btnFecharAlert.Click();
-                                }
-                                catch
-                                {
-
-                                }
-
-                                txtSinistro = chromeDriver.FindElementById("absegc_cmbHouveSinistro"); Thread.Sleep(2000);
-                                txtSinistro.SendKeys("Nao"); Thread.Sleep(2000);
-
-                                dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
-                                dpBonusAnterior.GetAttribute("value");
-
-                                classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) + 1;
-                                bonusAtual = "Classe " + classe;
-
-                                if (bonusAtual == "Classe 11")
-                                {
-                                    selectBonus.SelectByText("Classe 10");
-                                }
-
-                                else
-                                {
-                                    selectBonus.SelectByText(bonusAtual);
-                                }
-
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
-                            }
-                            catch
-                            {
-
-                            }
-                            #endregion
-
-                            #region ABA AUTOMÓVEL
-
-                            try
-                            {
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
 
 
-                                txtAnoVeic = chromeDriver.FindElementById("abac_txtAnoFabricacao");
-                                string anoVeic = txtAnoVeic.GetAttribute("value");
+                    }
+                    catch
+                    {
+                        chromeDriver.Quit();
+                        listBox1.Items.Add("Não foi possivel prosseguir!");
+                        listBox1.Items.Add("");
+                        gravaLog("Não foi possivel prosseguir para a Aba calcular!");
+                        contNProcss++;
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
+                    #endregion
 
-                                if (anoVeic == "")
-                                {
-                                    listBox1.Items.Add("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
-                                    listBox1.Items.Add("");
-                                    txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
-                                    chromeDriver.Quit();
-                                    return;
+                    #region ABA CALCULAR
 
-                                }
-                            }
-                            catch
-                            {
+                    try
+                    {
 
-                            }
+                        txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
+                        validaCampo = txtLotacao.GetAttribute("value");
+                        if (validaCampo == "")
+                        {
+                            gravaLog("Preenchendo o campo de lotacao");
+                            txtLotacao.SendKeys("0"); Thread.Sleep(2000);
+                        }
+                    }
+                    catch
+                    {
 
-                            try
-                            {
+                    }
 
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
+                    try
+                    {
+                        btnProximo = chromeDriver.FindElementByClassName("btnCalcular"); Thread.Sleep(2000);
+                        btnProximo.Click(); Thread.Sleep(2000);
+                    }
+                    catch
+                    {
 
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
+                    }
 
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
+                    gravaLog("Efetuando calculo!");
+                    // Erro ao tentar calcular - fecha o navegador e reinicia o metodo 
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(3000);
+                        btnFecharAlert.Click(); Thread.Sleep(3000);
 
-                                
-                            }
-                            catch
-                            {
-                                chromeDriver.Quit();
-                                listBox1.Items.Add("Não foi possivel prosseguir!");
-                                listBox1.Items.Add("");
-                                contNProcss++;
-                                return;
-                            }
-                            #endregion
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(3000);
+                        btnFecharAlert.Click(); Thread.Sleep(3000);
 
-                            #region ABA CALCULAR
+                    }
+                    catch
+                    {
 
-                           try
-                            {
+                    }
 
-                                txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
-                                validaCampo = txtLotacao.GetAttribute("value");
-                                if (validaCampo == "")
-                                {
-                                    txtLotacao.SendKeys("0"); Thread.Sleep(2000);
-                                }                               
-                            }
-                            catch
-                            {
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
+                        btnFecharAlert.Click();
 
-                            }
+                        chromeDriver.Quit();
 
-                            try
-                            {
-                                btnProximo = chromeDriver.FindElementByClassName("btnCalcular"); Thread.Sleep(2000);
-                                btnProximo.Click(); Thread.Sleep(2000);
-                            }
-                            catch
-                            {
-                                
-                            }
+                        listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
+                        listBox1.Items.Add("");
+                        gravaLog("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
+                        txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
+                    catch
+                    {
 
-                            // Erro ao tentar calcular - fecha o navegador e reinicia o metodo 
-                            try
-                            {
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(3000);
-                                btnFecharAlert.Click(); Thread.Sleep(3000);
+                    }
 
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(3000);
-                                btnFecharAlert.Click(); Thread.Sleep(3000);
-                                
-                            }
-                            catch
-                            {
 
-                            }
-                            
-                            try
-                            {
+                    #endregion
+
+                    break;
+
+                #endregion
+
+                #region CORRENTISTA
+
+                case "CORRENTISTA":
+
+                    #region ABA SOLICITANTE
+
+                    selectElement.SelectByText("CORRENTISTA");
+
+                    selectCampanha.SelectByText("Sem campanha");
+
+                    txtAgencia = chromeDriver.FindElementById("absc_txtAgencia");
+                    txtAgencia.SendKeys(objCliente.Cliente_Agencia.ToString());
+
+                    if (veiculo == "ESPORTIVO" || veiculo == "MOTOCICLETA" || veiculo == "PASSEIO" || veiculo == "PLACA LEVE" || veiculo == "PLACA PESADA PESSOA" || veiculo == "PLACA PESADA CARGA")
+                    {
+
+                        selectVeiculo.SelectByText("PASSEIO"); Thread.Sleep(1500);
+
+                        txtCPFCNPJSol = chromeDriver.FindElementById("absc_txtCpfCnpjSol");
+                        txtCPFCNPJSol.SendKeys(objCliente.Cliente_CPF_CNPJ);
+
+                        SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
+
+                        try
+                        {
+                            btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(1500);
+                            btnFecharAlert.Click();
+                        }
+                        catch
+                        {
+
+                        }
+
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(3000);
+                        btnProximo.Click();
+
+                    }
+                    else
+                    {
+
+                        selectVeiculo.SelectByText(veiculo); Thread.Sleep(3000);
+
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
+                    }
+
+                    #endregion
+
+                    #region ABA SEGURO
+
+                    try
+                    {
+                        selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
+
+                        txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol"); Thread.Sleep(1500);
+                        txtApoSuc.SendKeys(objCliente.Cliente_Sucursal.ToString());
+
+                        txtApolice = chromeDriver.FindElementById("absegc_txtCapol"); Thread.Sleep(1500);
+                        txtApolice.SendKeys(objCliente.Cliente_Apolice.ToString());
+
+                        txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol"); Thread.Sleep(1500);
+                        txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
+
+                        SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
+
+                        try
+                        {
+                            btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(1500);
+                            btnFecharAlert.Click();
+                        }
+                        catch
+                        {
+
+                        }
+                        try
+                        {
                             btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
                             btnFecharAlert.Click();
+                        }
+                        catch
+                        {
 
-                            chromeDriver.Quit();
+                        }
 
-                            listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
-                            listBox1.Items.Add("");
-                            txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
-                            
-                                return;
-                            }
-                            catch
-                            {
+                        try
+                        {
+                            btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[7]/div/div/div[1]/button"); Thread.Sleep(1500);
+                            btnFecharAlert.Click();
+                        }
+                        catch
+                        {
 
-                            }
-                           
-                            #endregion
+                        }
 
-                            break;
-                        #endregion
+                        txtSinistro = chromeDriver.FindElementById("absegc_cmbHouveSinistro"); Thread.Sleep(2000);
+                        txtSinistro.SendKeys("Nao"); Thread.Sleep(2000);
 
-                        #region NÃO CORRENTISTA
+                        dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
+                        dpBonusAnterior.GetAttribute("value");
 
-                        case "NÃO CORRENTISTA":
+                        gravaLog("Selecionando o Bonus...");
 
-                            #region ABA SOLICITANTE 
+                        classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) + 1;
+                        bonusAtual = "Classe " + classe;
 
-                            selectElement.SelectByText("NÃO CORRENTISTA");
+                        if (bonusAtual == "Classe 11")
+                        {
+                            selectBonus.SelectByText("Classe 10");
+                        }
 
-                            txtCPFCNPJSol = chromeDriver.FindElementById("absc_txtCpfCnpjSeg"); Thread.Sleep(1500);
-                            txtCPFCNPJSol.SendKeys(objCliente.Cliente_CPF_CNPJ);
+                        else
+                        {
+                            selectBonus.SelectByText(bonusAtual);
+                        }
 
-                            txtCEPPern = chromeDriver.FindElementById("absegc_txtCepPernoiteSolic");
-                            txtCEPPern.SendKeys(objCliente.Cliente_CEP.ToString());Thread.Sleep(2000);
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
 
-                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                            btnProximo.Click();
+                        gravaLog("Bonus selecionado com sucesso!");
+                    }
+                    catch
+                    {
 
-                            #endregion
-                            
-                            #region ABA SEGURO 
+                    }
+                    #endregion
 
-                            try
-                            {
-                                selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
+                    #region ABA AUTOMÓVEL
 
-                                txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol"); Thread.Sleep(1500);
-                                txtApoSuc.SendKeys(objCliente.Cliente_Sucursal.ToString());
+                    try
+                    {
 
-                                txtApolice = chromeDriver.FindElementById("absegc_txtCapol"); Thread.Sleep(1500);
-                                txtApolice.SendKeys(objCliente.Cliente_Apolice.ToString());
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
 
-                                txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol"); Thread.Sleep(1500);
-                                txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
 
-                                SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
-
-                                try
-                                {
-                                    btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(1500);
-                                    btnFecharAlert.Click();
-                                }
-                                catch
-                                {
-
-                                }
-                                try
-                                {
-                                    btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
-                                    btnFecharAlert.Click();
-                                }
-                                catch
-                                {
-
-                                }
-
-                                try
-                                {
-                                    btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[7]/div/div/div[1]/button"); Thread.Sleep(1500);
-                                    btnFecharAlert.Click();
-                                }
-                                catch
-                                {
-
-                                }
-
-                                txtSinistro = chromeDriver.FindElementById("absegc_cmbHouveSinistro"); Thread.Sleep(2000);
-                                txtSinistro.SendKeys("Nao"); Thread.Sleep(2000);
-
-                                dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
-                                dpBonusAnterior.GetAttribute("value");
-
-                                classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) + 1;
-                                bonusAtual = "Classe " + classe;
-
-                                if (bonusAtual == "Classe 11")
-                                {
-                                    selectBonus.SelectByText("Classe 10");
-                                }
-
-                                else
-                                {
-                                    selectBonus.SelectByText(bonusAtual);
-                                }
-
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
-                            }
-                            catch
-                            {
-
-                            }
-
-                            #endregion
-
-                            #region ABA AUTOMÓVEL
-
-                            try
-                            {
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
 
 
-                                txtAnoVeic = chromeDriver.FindElementById("abac_txtAnoFabricacao");
-                                string anoVeic = txtAnoVeic.GetAttribute("value");
+                    }
+                    catch
+                    {
+                        chromeDriver.Quit();
+                        listBox1.Items.Add("Não foi possivel prosseguir!");
+                        listBox1.Items.Add("");
+                        gravaLog("Não foi possivel prosseguir para a aba calcular");
+                        contNProcss++;
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
+                    #endregion
 
-                                if (anoVeic == "")
-                                {
-                                    listBox1.Items.Add("Erro ao tentar Processar o CPF: " + objCliente.Cliente_CPF_CNPJ + " ...");
-                                    listBox1.Items.Add("");
-                                    txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
-                                    chromeDriver.Quit();
-                                    return;
+                    #region ABA CALCULAR
 
-                                }
-                            }
-                            catch
-                            {
+                    try
+                    {
 
-                            }
+                        txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
+                        validaCampo = txtLotacao.GetAttribute("value");
+                        if (validaCampo == "")
+                        {
+                            gravaLog("Preenchendo campo de lotacao!");
+                            txtLotacao.SendKeys("0"); Thread.Sleep(2000);
+                        }
+                    }
+                    catch
+                    {
 
-                            try
-                            {
+                    }
 
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
+                    try
+                    {
+                        btnProximo = chromeDriver.FindElementByClassName("btnCalcular"); Thread.Sleep(2000);
+                        btnProximo.Click(); Thread.Sleep(2000);
+                        gravaLog("Efetuando o calculo!");
+                    }
+                    catch
+                    {
 
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
+                    }
 
-                                btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                                btnProximo.Click();
+                    // Erro ao tentar calcular - fecha o navegador e reinicia o metodo 
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(3000);
+                        btnFecharAlert.Click(); Thread.Sleep(3000);
 
-                                
-                            }
-                            catch
-                            {
-                                chromeDriver.Quit();
-                                listBox1.Items.Add("Não foi possivel prosseguir!");
-                                listBox1.Items.Add("");
-                                contNProcss++;
-                                return;
-                            }
-                            #endregion
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(3000);
+                        btnFecharAlert.Click(); Thread.Sleep(3000);
 
-                            #region ABA CALCULAR
+                    }
+                    catch
+                    {
 
-                            try
-                            {
+                    }
 
-                                txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
-                                validaCampo = txtLotacao.GetAttribute("value");
-                                if (validaCampo == "")
-                                {
-                                    txtLotacao.SendKeys("0"); Thread.Sleep(2000);
-                                }                               
-                            }
-                            catch
-                            {
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
+                        btnFecharAlert.Click();
 
-                            }
+                        chromeDriver.Quit();
 
-                            try
-                            {
-                                btnProximo = chromeDriver.FindElementByClassName("btnCalcular"); Thread.Sleep(2000);
-                                btnProximo.Click(); Thread.Sleep(2000);
-                            }
-                            catch
-                            {
-                                
-                            }
+                        listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
+                        listBox1.Items.Add("");
+                        txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
+                    catch
+                    {
 
-                            // Erro ao tentar calcular - fecha o navegador e reinicia o metodo 
-                            try
-                            {
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(3000);
-                                btnFecharAlert.Click(); Thread.Sleep(3000);
+                    }
 
-                                btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(3000);
-                                btnFecharAlert.Click(); Thread.Sleep(3000);
-                                
-                            }
-                            catch
-                            {
+                    #endregion
 
-                            }
-                            
-                            try
-                            {
+                    break;
+                #endregion
+
+                #region NÃO CORRENTISTA
+
+                case "NÃO CORRENTISTA":
+
+                    #region ABA SOLICITANTE
+
+                    selectElement.SelectByText("NÃO CORRENTISTA");
+
+                    txtCPFCNPJSol = chromeDriver.FindElementById("absc_txtCpfCnpjSeg"); Thread.Sleep(1500);
+                    txtCPFCNPJSol.SendKeys(objCliente.Cliente_CPF_CNPJ);
+
+                    txtCEPPern = chromeDriver.FindElementById("absegc_txtCepPernoiteSolic");
+                    txtCEPPern.SendKeys(objCliente.Cliente_CEP.ToString()); Thread.Sleep(2000);
+
+                    btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                    btnProximo.Click();
+
+                    #endregion
+
+                    #region ABA SEGURO
+
+                    try
+                    {
+                        selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
+
+                        gravaLog("Dados do cliente carregado com sucesso");
+
+                        txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol"); Thread.Sleep(1500);
+                        txtApoSuc.SendKeys(objCliente.Cliente_Sucursal.ToString());
+
+                        txtApolice = chromeDriver.FindElementById("absegc_txtCapol"); Thread.Sleep(1500);
+                        txtApolice.SendKeys(objCliente.Cliente_Apolice.ToString());
+
+                        txtApoItem = chromeDriver.FindElementById("absegc_txtCitemApol"); Thread.Sleep(1500);
+                        txtApoItem.SendKeys(objCliente.Cliente_Item.ToString());
+
+                        SendKeys.SendWait("{ENTER}"); Thread.Sleep(2000);
+
+                        try
+                        {
+                            btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(1500);
+                            btnFecharAlert.Click();
+                        }
+                        catch
+                        {
+
+                        }
+                        try
+                        {
                             btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
                             btnFecharAlert.Click();
+                        }
+                        catch
+                        {
 
-                            chromeDriver.Quit();
+                        }
 
-                            listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
-                            listBox1.Items.Add("");
-                            txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
-                            
-                                return;
-                            }
-                            catch
-                            {
+                        try
+                        {
+                            btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[7]/div/div/div[1]/button"); Thread.Sleep(1500);
+                            btnFecharAlert.Click();
+                        }
+                        catch
+                        {
 
-                            }
-                            #endregion
+                        }
 
-                            break;
-                        #endregion
+                        txtSinistro = chromeDriver.FindElementById("absegc_cmbHouveSinistro"); Thread.Sleep(2000);
+                        txtSinistro.SendKeys("Nao"); Thread.Sleep(2000);
 
-                        #region WORKSTIE
+                        dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
+                        dpBonusAnterior.GetAttribute("value");
 
+                        classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) + 1;
+                        bonusAtual = "Classe " + classe;
+
+                        if (bonusAtual == "Classe 11")
+                        {
+                            selectBonus.SelectByText("Classe 10");
+                        }
+
+                        else
+                        {
+                            selectBonus.SelectByText(bonusAtual);
+                        }
+
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
+                    }
+                    catch
+                    {
+                        gravaLog("Não foi possivel carregar os dados do Cliente");
+                    }
+
+                    #endregion
+
+                    #region ABA AUTOMÓVEL
+
+                    try
+                    {
+
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
+
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
+
+                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                        btnProximo.Click();
+
+
+                    }
+                    catch
+                    {
+                        chromeDriver.Quit();
+                        listBox1.Items.Add("Não foi possivel prosseguir!");
+                        listBox1.Items.Add("");
+                        gravaLog("Não foi possivel prosseguir para a Aba de calculo!");
+                        contNProcss++;
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
+                    #endregion
+
+                    #region ABA CALCULAR
+
+                    try
+                    {
+
+                        txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
+                        validaCampo = txtLotacao.GetAttribute("value");
+                        if (validaCampo == "")
+                        {
+                            gravaLog("Preenchendo o campo de lotacao");
+                            txtLotacao.SendKeys("0"); Thread.Sleep(2000);
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+
+                    try
+                    {
+                        btnProximo = chromeDriver.FindElementByClassName("btnCalcular"); Thread.Sleep(2000);
+                        btnProximo.Click(); Thread.Sleep(2000);
+                        gravaLog("Efetuando Calculo...");
+                    }
+                    catch
+                    {
+
+                    }
+
+                    // Erro ao tentar calcular - fecha o navegador e reinicia o metodo 
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(3000);
+                        btnFecharAlert.Click(); Thread.Sleep(3000);
+
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(3000);
+                        btnFecharAlert.Click(); Thread.Sleep(3000);
+
+                    }
+                    catch
+                    {
+
+                    }
+
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button");
+                        btnFecharAlert.Click();
+
+                        chromeDriver.Quit();
+
+                        listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
+                        listBox1.Items.Add("");
+                        gravaLog("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
+                        txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
+                    catch
+                    {
+
+                    }
+                    #endregion
+
+                    break;
+                    #endregion
+
+                #region WORKSTIE
+                    
                         case "WORKSITE":
 
                             #region ABA SOLICITANTE
@@ -1273,6 +1261,7 @@ namespace RoboCotacaoBradesco
                                     listBox1.Items.Add("");
                                     txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
                                     chromeDriver.Quit();
+                                    Dados.AtualizaTent(objCliente);
                                     return;
 
                                 }
@@ -1302,6 +1291,7 @@ namespace RoboCotacaoBradesco
                                 listBox1.Items.Add("Não foi possivel prosseguir!");
                                 listBox1.Items.Add("");
                                 contNProcss++;
+                                Dados.AtualizaTent(objCliente);
                                 return;
                             }
 
@@ -1351,7 +1341,7 @@ namespace RoboCotacaoBradesco
                             listBox1.Items.Add("Erro ao tentar calcular valores do CPF: " + objCliente.Cliente_CPF_CNPJ);
                             listBox1.Items.Add("");
                             contNProcss++;
-                                
+                            Dados.AtualizaTent(objCliente);  
                                 return;
                             }
                             catch
@@ -1373,21 +1363,28 @@ namespace RoboCotacaoBradesco
                             #endregion
 
                             break;
-                        #endregion
-
                     }
-
+                    
             #endregion
 
-            #region Gerar PDF
+               #region Gerar PDF
                     // Click no botão de gerar o PDF
-
                     try
                     {
                         File.Delete(RoboCotacaoBradesco.Properties.Settings.Default.fileDelet);
+                        gravaLog("Deletando arquivo PDF na pasta Download");
                     }
                     catch
                     {
+                        try
+                        {
+                            File.Delete(RoboCotacaoBradesco.Properties.Settings.Default.fileDelet);
+                        }
+
+                        catch
+                        {
+                            gravaLog("Não há arquivo PDF para ser deletado ou não foi possivel deletar o arquivo");
+                        }
 
                     }
 
@@ -1396,10 +1393,11 @@ namespace RoboCotacaoBradesco
 
                     btnProximo = chromeDriver.FindElementByXPath("/html/body/div[2]/div/div/div[2]/form/div[3]/button[3]"); Thread.Sleep(3000);
                     btnProximo.Click(); Thread.Sleep(2000);
-                    
 
-            // Fechar todos os alertas
-                try
+                    gravaLog("Gerando arquivo PDF");
+
+                    // Fechar todos os alertas
+                    try
                     {
                         btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[1]/button"); Thread.Sleep(4000);
                         btnFecharAlert.Click(); Thread.Sleep(3000);
@@ -1408,31 +1406,32 @@ namespace RoboCotacaoBradesco
                         btnFecharAlert.Click(); Thread.Sleep(3000);
 
                     }
-                catch
+                    catch
                     {
 
                     }
 
 
-                try
+                    try
                     {
-                            btnFecharAlert = chromeDriver.FindElementById("btn_cancelar_gerarpdf");
-                            btnFecharAlert.Click();
+                        btnFecharAlert = chromeDriver.FindElementById("btn_cancelar_gerarpdf");
+                        btnFecharAlert.Click();
 
-                            listBox1.Items.Add("Erro ao tentar Extrair PDF!");
-                            listBox1.Items.Add("");
-                            gravaLog("Erro ao tentar Extrair PDF!");
+                        listBox1.Items.Add("Erro ao tentar Extrair PDF!");
+                        listBox1.Items.Add("");
+                        gravaLog("Erro ao tentar Extrair PDF!");
 
-                            txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
-                            
-                            chromeDriver.Quit();
-                            return;
-                     }
-                catch
-                     {
+                        txtNProcessado.Text = Convert.ToInt32(contNProcss++).ToString();
 
-                     }
-                    
+                        chromeDriver.Quit();
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
+                    catch
+                    {
+
+                    }
+
                     try
                     {
                         btnProximo = chromeDriver.FindElementByXPath("/html/body/div[2]/div/div/div[2]/form/div[3]/button[3]"); Thread.Sleep(3000);
@@ -1465,7 +1464,7 @@ namespace RoboCotacaoBradesco
 
                     try
                     {
-                        RenameFile(RoboCotacaoBradesco.Properties.Settings.Default.renameFile, "//tmkt.servicos.mkt/docs_ope/Transacoes/Ativos/BRADESCO_SEGUROS/ROBOCOTACAO/PDF/" + objCliente.Cliente_Clicodigo + ".pdf"); Thread.Sleep(4000);                       
+                        RenameFile(RoboCotacaoBradesco.Properties.Settings.Default.renameFile, RoboCotacaoBradesco.Properties.Settings.Default.CaminhoPDF + objCliente.Cliente_Clicodigo + ".pdf"); Thread.Sleep(4000);
                         Dados.EnviaEmailCli(objCliente);
                         listBox1.Items.Add("E-mail enviado com sucesso!");
                         listBox1.Items.Add("");
@@ -1473,13 +1472,16 @@ namespace RoboCotacaoBradesco
                         Dados.AtualizaFlg(objCliente);
                     }
                     catch
-                    {                      
+                    {
+                        gravaLog("Não foi possivel Enviar o e-mail ao Clinte");
+                        contNProcss++;
                     }
 
-                chromeDriver.Quit();
-            
-            #endregion
+                    chromeDriver.Quit();
 
+                    #endregion
+
+            #endregion
         }
 
         /// <summary>
@@ -1487,13 +1489,14 @@ namespace RoboCotacaoBradesco
         /// </summary>
         private void CarregaMalingCotacao()
         {
-            #region Loop
+            #region looping infinito
 
             /*
              *      Loop infinito para sempre procurar na base se há algum registro novo
              *      para ser gerado a cotação e envio do e-mail com o PDF
              */
 
+            #endregion
             bool a = true;
             while (a == true)
             {
@@ -1536,7 +1539,7 @@ namespace RoboCotacaoBradesco
                 {
                     try
                     {
-                        gravaLog("Iniciando o procedimento de gerar cotação e envio de e-mail ao Cliente!");
+                        gravaLog("Iniciando o procedimento de gerar cotacao e envio de e-mail ao Cliente!");
                         encerraChromeDriver(); Thread.Sleep(3000);
                         encerraChrome();
                         loginPortalVendas(item); 
@@ -1550,7 +1553,6 @@ namespace RoboCotacaoBradesco
 
                 #endregion
             }
-            #endregion
         }
         
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -1605,7 +1607,7 @@ namespace RoboCotacaoBradesco
         /// <param name="e"></param>
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            
+
             Process.GetCurrentProcess().Kill();
             btnCancelar.Visible = false;
             btnIniciar.Visible = true;
@@ -1619,20 +1621,19 @@ namespace RoboCotacaoBradesco
         /// <param name="Text"></param>
         private void gravaLog(string Text)
         {
-            string folder = @"\\tmkt.servicos.mkt\docs_ope\Transacoes\Ativos\BRADESCO_SEGUROS\ROBOCOTACAO\LOG"; 
-
+            
             //Verificar se o diretorio ja existe, caso não
             // o diretório é criado no local indicado.
 
-            if (!Directory.Exists(folder))
+            if (!Directory.Exists(RoboCotacaoBradesco.Properties.Settings.Default.CaminhoLog))
             {
 
                 //Criando o diretorio com o caminho informado
-                Directory.CreateDirectory(folder);
+                Directory.CreateDirectory(RoboCotacaoBradesco.Properties.Settings.Default.CaminhoLog);
 
             }
 
-            StreamWriter writer = new StreamWriter(RoboCotacaoBradesco.Properties.Settings.Default.CaminhoLog + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".txt", true, Encoding.ASCII);
+            StreamWriter writer = new StreamWriter(RoboCotacaoBradesco.Properties.Settings.Default.CaminhoLog + DateTime.Now.Day.ToString("00") + DateTime.Now.Month.ToString("00") + DateTime.Now.Year + ".txt", true, Encoding.ASCII);
             {
                 writer.WriteLine(DateTime.Now + " - " + Text);
                 writer.Close();
@@ -1652,7 +1653,9 @@ namespace RoboCotacaoBradesco
                 }
             }
         }
-        #region Método que finaliza todas as instancias do ChromeDriver
+
+        #region Métodos que finalizam todas as instancias do ChromeDriver e Google Chrome
+
         private void encerraChromeDriver()
         {
             try
@@ -1668,7 +1671,8 @@ namespace RoboCotacaoBradesco
                 Console.WriteLine("Não foi possível encerrar o processo do Chrome Driver");
             }
         }
-            private void encerraChrome()
+
+        private void encerraChrome()
             {
             try
             {
@@ -1683,6 +1687,7 @@ namespace RoboCotacaoBradesco
                 Console.WriteLine("Não foi possível encerrar o processo do Chrome ");
             }
             }
+
         #endregion
 
     }

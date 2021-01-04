@@ -116,5 +116,17 @@ namespace RoboCotacaoBradesco.Properties {
                 this["URL"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("//tmkt.servicos.mkt/docs_ope/Transacoes/Ativos/BRADESCO_SEGUROS/ROBOCOTACAO/PDF/")]
+        public string CaminhoPDF {
+            get {
+                return ((string)(this["CaminhoPDF"]));
+            }
+            set {
+                this["CaminhoPDF"] = value;
+            }
+        }
     }
 }

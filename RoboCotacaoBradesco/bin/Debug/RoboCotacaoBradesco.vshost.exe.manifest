@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
   <asmv1:assemblyIdentity name="RoboCotacaoBradesco.exe" version="1.0.0.11" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="iconfinder_robo_to_334741.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
     <assemblyIdentity name="RoboCotacaoBradesco" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
@@ -78,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RoboCotacaoBradesco.exe" size="574376">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RoboCotacaoBradesco.exe" size="580520">
       <assemblyIdentity name="RoboCotacaoBradesco" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>aczoo2zVt2s2/1IIE89WD9emrXRW+mn+npJjnXocJb8=</dsig:DigestValue>
+        <dsig:DigestValue>MukSuUidFISsibCvgdlud7B8j63Elvmqhp23LAWYg0E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -125,6 +126,15 @@
       </hash>
     </dependentAssembly>
   </dependency>
+  <file name="iconfinder_robo_to_334741.ico" size="3946">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>lMV3gBTD7+rcFnq9KGzoDG4qNEmuldATJ186WgIIQpo=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="img\cropped-logo-tmkt-insta.png" size="355960">
     <hash>
       <dsig:Transforms>
@@ -152,13 +162,22 @@
       <dsig:DigestValue>zrIVEuwBchb5zB2LZERal6ydtJXHVzHrC/BNoL9CIao=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="RoboCotacaoBradesco.exe.config" size="2942">
+  <file name="kisspng-robotic-process-automation-computer-icons-5ae49b3f22eab3.972773681524931391143.ico" size="5226">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>yvmPTV6Lug/gGUeN7sAgbNFRiBF1b5Y5/pZ6yB1Yi6s=</dsig:DigestValue>
+      <dsig:DigestValue>OFM+dt78rTWTIgQRDPuqfDKnQDAcaoyNfH5KH6vWpxU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="RoboCotacaoBradesco.exe.config" size="3141">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>LIPgKl5nb+omqdR+6OboV4zhEM9fF9E+zp19cgwL7oU=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>
