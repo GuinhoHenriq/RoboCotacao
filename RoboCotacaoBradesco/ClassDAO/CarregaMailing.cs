@@ -55,6 +55,10 @@ namespace RoboCotacaoBradesco.ClassDAO
                     
                   
             }
+            if (ds.Tables[0].Rows.Count == 0)
+            {
+                Process.GetCurrentProcess().Kill();
+            }
 
             return listaCliente;
         }

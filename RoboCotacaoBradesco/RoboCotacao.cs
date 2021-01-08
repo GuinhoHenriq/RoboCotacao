@@ -45,6 +45,17 @@ namespace RoboCotacaoBradesco
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
+
+            string hr = DateTime.Now.Hour.ToString();
+            if (hr == "6")
+            {
+                IniciaRoboAuto();
+            }
+            else
+            {
+                Process.GetCurrentProcess().Kill();
+            }
+            
         }
 
         private void btnIniciar_Click(object sender, EventArgs e)
@@ -320,8 +331,14 @@ namespace RoboCotacaoBradesco
 
                     #region ABA SEGURO
 
-                    selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
-
+                    try
+                    {
+                        selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
+                    }
+                    catch{
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
                     txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol");
                     txtApoSuc.SendKeys(objCliente.Cliente_Sucursal.ToString());
 
@@ -448,8 +465,8 @@ namespace RoboCotacaoBradesco
                     try
                     {
 
-                        txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
-                        validaCampo = txtLotacao.GetAttribute("value");
+                        txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(5000);
+                        validaCampo = txtLotacao.GetAttribute("value"); Thread.Sleep(3000);
                         gravaLog("Inserindo valor no campo de lotacao");
                         if (validaCampo == "")
                         {
@@ -467,6 +484,20 @@ namespace RoboCotacaoBradesco
                     gravaLog("Efetuando o calculo!");
 
                     // Erro ao tentar calcular - fecha o navegador
+
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button[1]"); Thread.Sleep(2000);
+                        btnFecharAlert.Click(); Thread.Sleep(1500);
+
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(2000);
+                        btnFecharAlert.Click();
+                    }
+                    catch
+                    {
+
+                    }
+
                     try
                     {
                         btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(3000);
@@ -561,7 +592,13 @@ namespace RoboCotacaoBradesco
                     try
                     {
                         selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
-
+                    }
+                    catch
+                    {
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
+                    try{
                         gravaLog("Aba Solicitante preenchida com sucesso!");
 
                         gravaLog("Dados do cliente carregados com sucesso!");
@@ -695,8 +732,8 @@ namespace RoboCotacaoBradesco
                     try
                     {
 
-                        txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
-                        validaCampo = txtLotacao.GetAttribute("value");
+                        txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(5000);
+                        validaCampo = txtLotacao.GetAttribute("value"); Thread.Sleep(3000);
                         if (validaCampo == "")
                         {
                             gravaLog("Preenchendo o campo de lotacao");
@@ -720,6 +757,20 @@ namespace RoboCotacaoBradesco
 
                     gravaLog("Efetuando calculo!");
                     // Erro ao tentar calcular - fecha o navegador e reinicia o metodo 
+
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button[1]"); Thread.Sleep(2000);
+                        btnFecharAlert.Click(); Thread.Sleep(1500);
+
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(2000);
+                        btnFecharAlert.Click();
+                    }
+                    catch
+                    {
+
+                    }
+
                     try
                     {
                         btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(3000);
@@ -813,7 +864,14 @@ namespace RoboCotacaoBradesco
                     try
                     {
                         selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
-
+                    }
+                    catch
+                    {
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
+                    try
+                    {
                         txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol"); Thread.Sleep(1500);
                         txtApoSuc.SendKeys(objCliente.Cliente_Sucursal.ToString());
 
@@ -919,8 +977,8 @@ namespace RoboCotacaoBradesco
                     try
                     {
 
-                        txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
-                        validaCampo = txtLotacao.GetAttribute("value");
+                        txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(5000);
+                        validaCampo = txtLotacao.GetAttribute("value"); Thread.Sleep(3000);
                         if (validaCampo == "")
                         {
                             gravaLog("Preenchendo campo de lotacao!");
@@ -944,6 +1002,20 @@ namespace RoboCotacaoBradesco
                     }
 
                     // Erro ao tentar calcular - fecha o navegador e reinicia o metodo 
+
+                    try
+                    {
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button[1]"); Thread.Sleep(2000);
+                        btnFecharAlert.Click(); Thread.Sleep(1500);
+
+                        btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(2000);
+                        btnFecharAlert.Click();
+                    }
+                    catch
+                    {
+
+                    }
+
                     try
                     {
                         btnFecharAlert = chromeDriver.FindElementByXPath("/html/body/div[8]/div/div/div[3]/div/button"); Thread.Sleep(3000);
@@ -1005,7 +1077,13 @@ namespace RoboCotacaoBradesco
                     try
                     {
                         selectCia.SelectByText("BRADESCO SEGUROS S/A"); Thread.Sleep(3000);
-
+                    }
+                    catch
+                    {
+                        Dados.AtualizaTent(objCliente);
+                        return;
+                    }
+                        
                         gravaLog("Dados do cliente carregado com sucesso");
 
                         txtApoSuc = chromeDriver.FindElementById("absegc_txtCsucApol"); Thread.Sleep(1500);
@@ -1047,33 +1125,34 @@ namespace RoboCotacaoBradesco
                         {
 
                         }
-
-                        txtSinistro = chromeDriver.FindElementById("absegc_cmbHouveSinistro"); Thread.Sleep(2000);
-                        txtSinistro.SendKeys("Nao"); Thread.Sleep(2000);
-
-                        dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
-                        dpBonusAnterior.GetAttribute("value");
-
-                        classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) + 1;
-                        bonusAtual = "Classe " + classe;
-
-                        if (bonusAtual == "Classe 11")
+                        try
                         {
-                            selectBonus.SelectByText("Classe 10");
-                        }
+                            txtSinistro = chromeDriver.FindElementById("absegc_cmbHouveSinistro"); Thread.Sleep(2000);
+                            txtSinistro.SendKeys("Nao"); Thread.Sleep(2000);
 
-                        else
+                            dpBonusAnterior = chromeDriver.FindElementById("absegc_cmbClasseBonusAnte");
+                            dpBonusAnterior.GetAttribute("value");
+
+                            classe = Int32.Parse(dpBonusAnterior.GetAttribute("value")) + 1;
+                            bonusAtual = "Classe " + classe;
+
+                            if (bonusAtual == "Classe 11")
+                            {
+                                selectBonus.SelectByText("Classe 10");
+                            }
+
+                            else
+                            {
+                                selectBonus.SelectByText(bonusAtual);
+                            }
+
+                            btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
+                            btnProximo.Click();
+                        }
+                        catch
                         {
-                            selectBonus.SelectByText(bonusAtual);
+                            gravaLog("Não foi possivel carregar os dados do Cliente");
                         }
-
-                        btnProximo = chromeDriver.FindElementByClassName("btnProximo"); Thread.Sleep(1500);
-                        btnProximo.Click();
-                    }
-                    catch
-                    {
-                        gravaLog("Não foi possivel carregar os dados do Cliente");
-                    }
 
                     #endregion
 
@@ -1110,8 +1189,8 @@ namespace RoboCotacaoBradesco
                     try
                     {
 
-                        txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(3000);
-                        validaCampo = txtLotacao.GetAttribute("value");
+                        txtLotacao = chromeDriver.FindElementById("abcc_txtLotacaoVeiculo"); Thread.Sleep(5000);
+                        validaCampo = txtLotacao.GetAttribute("value"); Thread.Sleep(3000);
                         if (validaCampo == "")
                         {
                             gravaLog("Preenchendo o campo de lotacao");
@@ -1172,6 +1251,7 @@ namespace RoboCotacaoBradesco
                     break;
                     #endregion
 
+                // Worksite não está sendo utilizado no momento
                 #region WORKSTIE
                     
                         case "WORKSITE":
@@ -1690,5 +1770,23 @@ namespace RoboCotacaoBradesco
 
         #endregion
 
+        private void IniciaRoboAuto()
+        {
+            Thread.Sleep(6000);
+            btnIniciar.Visible = false;
+            btnCancelar.Visible = true;
+            btnIniciar.Enabled = false;
+            contNProcss++;
+            contProcss++;
+            listBox1.Items.Add("Robô iniciado!");
+            listBox1.Items.Add("");
+            gravaLog("Robo iniciado!");
+            progressBar1.MarqueeAnimationSpeed = 25;
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            Thread th = new Thread(new ThreadStart(CarregaMalingCotacao));
+            th.Start();
+        }
+
     }
+
 }
