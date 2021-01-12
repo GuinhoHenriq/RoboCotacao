@@ -18,8 +18,8 @@ namespace RoboCotacaoBradesco.ClassModelo
          */
         #endregion
 
-        
-        #region
+
+        #region Propriedades da Classe
 
         public int Cliente_SEQ { get; set; }
         public string Cliente_Clicodigo { get; set; }
@@ -40,7 +40,7 @@ namespace RoboCotacaoBradesco.ClassModelo
         public string Cliente_Email { get; set; }
 
 
-        #endregion
+        #endregion 
        
     }
 }

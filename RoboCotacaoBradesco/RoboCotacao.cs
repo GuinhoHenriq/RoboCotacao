@@ -51,10 +51,10 @@ namespace RoboCotacaoBradesco
             {
                 IniciaRoboAuto();
             }
-            else
-            {
-                Process.GetCurrentProcess().Kill();
-            }
+            //else
+            //{
+            //    Process.GetCurrentProcess().Kill();
+            //}
             
         }
 
