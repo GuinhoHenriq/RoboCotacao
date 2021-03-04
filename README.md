@@ -2,7 +2,7 @@
 
 
 <br>
-# RoboCotacaoBradesco
+# RoboCotacao
 
 ## 🚀 Programa de automação que gera cotação de renovação de autos e envia para o e-mail do cliente!
 
@@ -64,7 +64,7 @@ O Cliente que será trabalhado deve possuir os seguintes requisitos cadastrados 
 onde o BD tenha acesso, pois assim que salvo neste servidor o BD pega o arquivo e envia por e-mail no endereço encontrado no BD.</p>
 <br>
 <h3 align="center"> 
-	🤖  RoboCotacaoBradesco 🤖 Completo - Em Produção! 💻
+	🤖  RoboCotacao🤖 Completo - Em Produção! 💻
 </h3>
 
 ### ✔️ Features
