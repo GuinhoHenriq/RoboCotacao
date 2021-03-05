@@ -18,7 +18,7 @@ namespace RoboCotacaoBradesco.ClassDAO
     {
         public List<ClienteCotacao> CarregaMalingCotacao ()
         {
-            System.Data.SqlClient.SqlConnection conexao = new SqlConnection(RoboCotacaoBradesco.Properties.Settings.Default.AcessoBanco);
+            System.Data.SqlClient.SqlConnection conexao = new SqlConnection("conexao");
 
             SqlCommand comando = new SqlCommand();
             DataSet ds = new DataSet();
@@ -65,7 +65,7 @@ namespace RoboCotacaoBradesco.ClassDAO
 
         public void EnviaEmailCli(ClienteCotacao objCliente)
         {
-            System.Data.SqlClient.SqlConnection conexao = new SqlConnection(RoboCotacaoBradesco.Properties.Settings.Default.AcessoBanco);
+            System.Data.SqlClient.SqlConnection conexao = new SqlConnection("conexao");
             SqlCommand comando = new SqlCommand();
             DataSet ds = new DataSet();
             SqlDataAdapter da;
@@ -86,7 +86,7 @@ namespace RoboCotacaoBradesco.ClassDAO
 
         public void AtualizaFlg(ClienteCotacao objCliente)
         {
-            System.Data.SqlClient.SqlConnection conexao = new SqlConnection(RoboCotacaoBradesco.Properties.Settings.Default.AcessoBanco);
+            System.Data.SqlClient.SqlConnection conexao = new SqlConnection("conexao");
             SqlCommand comando = new SqlCommand();
             DataSet ds = new DataSet();
             SqlDataAdapter da;
@@ -103,7 +103,7 @@ namespace RoboCotacaoBradesco.ClassDAO
 
         public void AtualizaTent(ClienteCotacao objCliente)
         {
-            System.Data.SqlClient.SqlConnection conexao = new SqlConnection(RoboCotacaoBradesco.Properties.Settings.Default.AcessoBanco);
+            System.Data.SqlClient.SqlConnection conexao = new SqlConnection("conexao");
             SqlCommand comando = new SqlCommand();
             DataSet ds = new DataSet();
             SqlDataAdapter da;
